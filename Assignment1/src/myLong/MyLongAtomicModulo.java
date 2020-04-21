@@ -8,7 +8,6 @@ public class MyLongAtomicModulo extends MyLongAtomic {
 	public long incrementAndGet() {
 		LongBinaryOperator lbo = (x, y) -> ((x+y) % 16);
 		long count = counter.accumulateAndGet(1, lbo);
-		System.out.println(count);
 		return count;
 	}
 
