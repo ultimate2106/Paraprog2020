@@ -3,6 +3,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import assignment1.strangecounter.interfaces.CounterInterface;
 import assignment1.strangecounter.mylong.MyLong;
 import assignment1.strangecounter.mylong.MyLongAtomic;
 import assignment1.strangecounter.mylong.MyLongAtomicModulo;
@@ -11,18 +12,14 @@ public class StrangeCounter {
 	private final static int INCREMENTERS = 20;
 	private final static int RUNS = 50;
 	
-	private static MyLong counter = new MyLong();
-	//private static MyLongAtomic counter = new MyLongAtomic();
-	//private static MyLongAtomicModulo counter= new MyLongAtomicModulo();
-	
-	private static void test(int counterType) 
+	private static void test(int executorType,CounterInterface counter) 
 	{
 		CountDownLatch startLatch = new CountDownLatch(1);
 		CountDownLatch endLatch = new CountDownLatch(INCREMENTERS);
 		Thread[] Incrementers = new Thread[INCREMENTERS];
 		
 		ExecutorService executorService=null;
-		switch(counterType) 
+		switch(executorType) 
 		{
 			case 1:
 				executorService=Executors.newCachedThreadPool();
@@ -59,12 +56,28 @@ public class StrangeCounter {
 		}
 	}
 	
-	private static void startTest(String name, int length,int counterType) 
+	private static void startTest(String name, int length,int executorType,int counterType) 
 	{
 		for(int i=0;i<10;++i) 
 		{
+			CounterInterface counter=null;
+			switch(counterType)
+			{
+				case 1: 
+					counter=new MyLong();
+					break;
+				case 2:
+					counter=new MyLongAtomic();
+					break;
+				case 3:
+					counter=new MyLongAtomicModulo();
+					break;
+				default:
+					counter=new MyLong();
+					break;
+			}
 			System.out.println(name+" Test "+i);
-			test(counterType);
+			test(executorType,counter);
 			counter=new MyLong();
 			System.out.println();
 		}
@@ -73,10 +86,10 @@ public class StrangeCounter {
 	
 	public static void main(String[] args) {	
 		
-		startTest("Normal Threads",10,0);
-		startTest("CachedThreadPool",10,1);
-		startTest("FixedThreadPool",10,2);
-		startTest("SingleThreadPool",10,3);
+		startTest("Normal Threads",10,0,1);
+		startTest("CachedThreadPool",10,1,1);
+		startTest("FixedThreadPool",10,2,1);
+		startTest("SingleThreadPool",10,3,1);
 		
 		
 		/*CountDownLatch startLatch = new CountDownLatch(1);
