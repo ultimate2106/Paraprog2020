@@ -13,6 +13,10 @@ public class StrangeCounter {
 	//private static MyLongAtomic counter = new MyLongAtomic();
 	private static MyLongAtomicModulo counter = new MyLongAtomicModulo();
 	
+	private static void testWithExecutorService() 
+	{
+		
+	}
 	public static void main(String[] args) {
 		CountDownLatch startLatch = new CountDownLatch(1);
 		CountDownLatch endLatch = new CountDownLatch(INCREMENTERS);
