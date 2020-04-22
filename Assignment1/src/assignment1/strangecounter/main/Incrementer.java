@@ -1,4 +1,4 @@
-package assignment1.strangecounter.counter;
+package assignment1.strangecounter.main;
 
 import java.util.concurrent.CountDownLatch;
 
