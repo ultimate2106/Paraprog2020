@@ -1,8 +1,8 @@
-package strangeCounter;
+package assignment1.strangecounter.counter;
 
 import java.util.concurrent.CountDownLatch;
 
-import interfaces.CounterInterface;
+import assignment1.strangecounter.interfaces.CounterInterface;
 
 public class Incrementer implements Runnable {
 	private CounterInterface counter;

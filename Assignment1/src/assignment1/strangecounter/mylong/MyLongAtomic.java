@@ -1,8 +1,8 @@
-package myLong;
+package assignment1.strangecounter.mylong;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import interfaces.CounterInterface;
+import assignment1.strangecounter.interfaces.CounterInterface;
 
 public class MyLongAtomic implements CounterInterface {
 	protected AtomicLong counter = new AtomicLong();

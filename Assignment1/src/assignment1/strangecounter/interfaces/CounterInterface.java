@@ -1,4 +1,4 @@
-package interfaces;
+package assignment1.strangecounter.interfaces;
 
 public interface CounterInterface {	
 	long get();

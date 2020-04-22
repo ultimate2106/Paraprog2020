@@ -1,6 +1,6 @@
-package myLong;
+package assignment1.strangecounter.mylong;
 
-import interfaces.CounterInterface;
+import assignment1.strangecounter.interfaces.CounterInterface;
 
 public class MyLong implements CounterInterface {
 	private long counter = 0;

@@ -1,4 +1,4 @@
-package myLong;
+package assignment1.strangecounter.mylong;
 
 import java.util.function.LongBinaryOperator;
 

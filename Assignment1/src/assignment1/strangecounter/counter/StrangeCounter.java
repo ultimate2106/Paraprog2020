@@ -1,9 +1,9 @@
-package strangeCounter;
+package assignment1.strangecounter.counter;
 import java.util.concurrent.CountDownLatch;
 
-import myLong.MyLong;
-import myLong.MyLongAtomic;
-import myLong.MyLongAtomicModulo;
+import assignment1.strangecounter.mylong.MyLong;
+import assignment1.strangecounter.mylong.MyLongAtomic;
+import assignment1.strangecounter.mylong.MyLongAtomicModulo;
 
 public class StrangeCounter {
 	private final static int INCREMENTERS = 20;
