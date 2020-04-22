@@ -78,7 +78,6 @@ public class StrangeCounter {
 			}
 			System.out.println(name+" Test "+i);
 			test(executorType,counter);
-			counter=new MyLong();
 			System.out.println();
 		}
 		System.out.println();
