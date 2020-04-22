@@ -6,12 +6,12 @@ import assignment1.strangecounter.mylong.MyLongAtomic;
 import assignment1.strangecounter.mylong.MyLongAtomicModulo;
 
 public class StrangeCounter {
-	private final static int INCREMENTERS = 20;
-	private final static int RUNS = 50;
+	private final static int INCREMENTERS = 2;
+	private final static int RUNS = 1000;
 	
 	//private static MyLong counter = new MyLong();
-	//private static MyLongAtomic counter = new MyLongAtomic();
-	private static MyLongAtomicModulo counter = new MyLongAtomicModulo();
+	private static MyLongAtomic counter = new MyLongAtomic();
+	//private static MyLongAtomicModulo counter = new MyLongAtomicModulo();
 	
 	public static void main(String[] args) {
 		CountDownLatch startLatch = new CountDownLatch(1);

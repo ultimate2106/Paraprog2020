@@ -21,7 +21,7 @@ public class Incrementer implements Runnable {
 		try {
 			start.await();
 			for (int i = 0; i < RUNS; i++) {
-				long count = counter.incrementAndGet();
+				counter.incrementAndGet();
 				}
 			end.countDown();
 		} catch (Exception e) {
