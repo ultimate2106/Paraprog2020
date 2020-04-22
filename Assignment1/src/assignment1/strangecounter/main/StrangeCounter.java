@@ -85,11 +85,13 @@ public class StrangeCounter {
 	
 	public static void main(String[] args) {	
 		
-		startTest("Normal Threads",10,0,1);
-		startTest("CachedThreadPool",10,1,1);
-		startTest("FixedThreadPool",10,2,1);
-		startTest("SingleThreadPool",10,3,1);
-		
+		for(int counterType=1;counterType<=3;++counterType) {
+			System.out.println("----------------------------------------------");
+			startTest("Normal Threads",10,0,counterType);
+			startTest("CachedThreadPool",10,1,counterType);
+			startTest("FixedThreadPool",10,2,counterType);
+			startTest("SingleThreadPool",10,3,counterType);	
+		}
 		
 		/*CountDownLatch startLatch = new CountDownLatch(1);
 		CountDownLatch endLatch = new CountDownLatch(INCREMENTERS);
