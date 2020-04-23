@@ -1,15 +1,25 @@
 package assignment1.matrixvectormult.utils;
 
+import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 
 public class MatrixVectorUtils {
 	
 	public double[][] getTestMatrix(int dim) {
-		double[][] testMatrix = {
+		/*double[][] testMatrix = {
 				{1, 1, 1}, 
 				{2, 2, 2}, 
 				{3, 3, 3}
 				};
+		*/
+		double[][] testMatrix = new double[dim][dim];
+		Random rand = new Random();
+		
+		for(int i=0;i<dim;++i) {
+			for(int j=0;j<dim;++j) {
+				testMatrix[i][j] = rand.nextDouble();
+			}
+		}
 		return testMatrix;
 	}
 	
