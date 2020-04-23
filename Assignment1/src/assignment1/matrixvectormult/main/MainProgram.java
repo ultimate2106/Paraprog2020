@@ -16,5 +16,8 @@ public class MainProgram {
 		double[] vector = test.getTestVector(length);
 		double[] result = new double[length];
 		test.doIt(MVMult, matrix, vector, result);
+		for(int i=0;i<length;++i) {
+			System.out.println(result[i]);
+		}
 	}
 }
