@@ -3,7 +3,8 @@ package assignment1.matrixvectormult.utils;
 import java.util.concurrent.ForkJoinPool;
 
 public class MatrixVectorUtils {
-	double[][] getTestMatrix(int dim) {
+	
+	public double[][] getTestMatrix(int dim) {
 		double[][] testMatrix = {
 				{1, 1, 1}, 
 				{2, 2, 2}, 
@@ -17,7 +18,7 @@ public class MatrixVectorUtils {
 	 * @param dim
 	 * @return
 	 */
-	double[] getTestVector(int dim) {
+	public double[] getTestVector(int dim) {
 		double[] testVector = {3, 2, 1};
 		return testVector;
 	}
@@ -31,9 +32,10 @@ public class MatrixVectorUtils {
 	 * @param vector Der Vektor für die Multiplikation.
 	 * @param result Der Vektor in dem das Ergebnis gespeichert wird.
 	 */
-	void matVecMult(ForkJoinPool pool, final double[][] matrix, final double[]vector, final double[] result) {
+	public void doIt(ForkJoinPool pool, final double[][] matrix, final double[]vector, final double[] result) {
 		//TODO: Die Berechnung mit dem FJP starten.
 		//		Siehe dazu: https://www.geeksforgeeks.org/java-util-concurrent-recursiveaction-class-in-java-with-examples/
-		
+		MatrixVectorMultiplication task = new MatrixVectorMultiplication(matrix, vector, result, 0, matrix.length);
+		pool.invoke(task);
 	}
 }
