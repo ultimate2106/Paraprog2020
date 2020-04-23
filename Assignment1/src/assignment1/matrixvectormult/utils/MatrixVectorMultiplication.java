@@ -42,10 +42,10 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 		//dementsprechend ist length=matrix.length=matrix[x].length=vector.length=result.length
 		
 		if(matrix.length == length && result.length == length) {
-			for(int i=0;i<length;++i) {
-				result[startIndex] += matrix[startIndex][i] * vector[i];
-			}
 			if(startIndex<length) {
+				for(int i=0;i<length;++i) {
+					result[startIndex] += matrix[startIndex][i] * vector[i];
+				}			
 				invokeAll(new MatrixVectorMultiplication(matrix,vector,result,startIndex+1,length));
 			}
 		}
