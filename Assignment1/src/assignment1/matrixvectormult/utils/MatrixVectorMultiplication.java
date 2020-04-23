@@ -38,6 +38,13 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 		// Das bedeutet jeder Task (Instanz von dieser Klasse)
 		// übernimmt die multiplikation des Vectors mit
 		// entsprechend vielen Reihen aus der Matrix.
+		
+		for(int i=0;i<vector.length;++i) {
+			result[startIndex] += matrix[startIndex][i] * vector[i];
+		}
+		
+		if(startIndex<length) {
+			invokeAll(new MatrixVectorMultiplication(matrix,vector,result,startIndex,length));
+		}
 	}
-
 }
