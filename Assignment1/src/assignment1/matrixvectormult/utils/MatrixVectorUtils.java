@@ -16,8 +16,8 @@ public class MatrixVectorUtils {
 		Random rand = new Random();
 		
 		for(int i=0;i<dim;++i) {
-			for(int j=0;j<dim;++j) {
-				testMatrix[i][j] = rand.nextDouble();
+			for(int j=0;j<dim;++j) {			
+				testMatrix[i][j] = Math.round((rand.nextDouble()*10) * 100.0) / 100.0;
 			}
 		}
 		return testMatrix;
@@ -29,7 +29,13 @@ public class MatrixVectorUtils {
 	 * @return
 	 */
 	public double[] getTestVector(int dim) {
-		double[] testVector = {3, 2, 1};
+		//double[] testVector = {3, 2, 1};
+		Random rand=new Random();
+		double[] testVector=new double[dim];
+		for(int i=0;i<dim;++i) 
+		{
+			testVector[i]=Math.round((rand.nextDouble()*10) * 100.0) / 100.0;
+		}
 		return testVector;
 	}
 	
