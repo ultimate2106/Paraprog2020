@@ -40,17 +40,16 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 		// entsprechend vielen Reihen aus der Matrix.
 		//Von Benjamin: wir arbeiten mit quadratischen Matrizen
 		//dementsprechend ist length=matrix.length=matrix[x].length=vector.length=result.length
-		
-		if(matrix.length == length && result.length == length) {
-			if(startIndex<length) {
-				for(int i=0;i<length;++i) {
-					result[startIndex] += matrix[startIndex][i] * vector[i];
-				}			
-				invokeAll(new MatrixVectorMultiplication(matrix,vector,result,startIndex+1,length));
-			}
+		if((length-startIndex)>1) {
+			int mid=(length-startIndex)/2;		
+			invokeAll(new MatrixVectorMultiplication(matrix,vector,result,startIndex,mid),
+					 new MatrixVectorMultiplication(matrix,vector,result,mid,length));
 		}
-		else {
-			//throw Exception
+		else 
+		{
+			for(int i=0;i<vector.length;++i) {
+				result[startIndex] += matrix[startIndex][i] * vector[i];
+			}	
 		}
 	}
 }
