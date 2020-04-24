@@ -6,7 +6,7 @@ import assignment1.matrixvectormult.utils.MatrixVectorMultiplication;
 import assignment1.matrixvectormult.utils.MatrixVectorUtils;
 
 public class MainProgram {
-	private static final int length = 7;
+	private static final int length = 1000;
 	private static double[][] matrix;
 	private static double[] vector;
 	
@@ -28,7 +28,7 @@ public class MainProgram {
 		
 		System.out.println("=============Pool " + poolNr + "=============");
 		doIt(pool, matrix, vector, result);
-		printResult(result);
+		//printResult(result);
 	}
 	
 	private static void printResult(double[] result) 
@@ -86,6 +86,10 @@ public class MainProgram {
 	 */
 	public static void doIt(ForkJoinPool pool, final double[][] matrix, final double[]vector, final double[] result) {
 		MatrixVectorMultiplication task = new MatrixVectorMultiplication(matrix, vector, result, 0, matrix.length);
+		long startTime = System.nanoTime();
 		pool.invoke(task);
+		double duration = ((double) (System.nanoTime() - startTime)) / 1000000.0;
+		System.out.println("Time passed: " + duration);
+		System.out.println();
 	}
 }
