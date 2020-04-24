@@ -25,6 +25,22 @@ public class MainProgram {
 			System.out.println(result[i]);
 		}
 	}
+	
+	public static void callDoIt(ForkJoinPool pool,MatrixVectorUtils utils,int length,int poolNumber)
+	{
+		System.out.println("=============Pool "+poolNumber+"=============");
+		for(int i=0;i<length;++i) 
+		{
+			System.out.println("=============Task "+i+"=============");
+			double[][] matrix = utils.getTestMatrix(length);
+			double[] vector = utils.getTestVector(length);
+			double[] result = new double[length];
+			utils.doIt(pool, matrix, vector, result);
+			printResult(matrix,vector,result,length);	
+		}
+	}
+	
+	
 	public static void main(String[] args) {
 		//TODO: ForkJoinPool erstellen,
 		//		TestMatrix und TestVektor holen (Utils),
@@ -32,37 +48,9 @@ public class MainProgram {
 		ForkJoinPool pool1 = new ForkJoinPool();
 		ForkJoinPool pool2 = new ForkJoinPool();
 		ForkJoinPool pool3 = new ForkJoinPool();
-		MatrixVectorUtils utils = new MatrixVectorUtils();
-		
-		System.out.println("=============Pool 1=============");
-		//Aufruf von 3 Tasks in Pool 1
-		for(int i=1;i<=3;++i) {
-			double[][] matrix = utils.getTestMatrix(i);
-			double[] vector = utils.getTestVector(i);
-			double[] result = new double[i];
-			utils.doIt(pool1, matrix, vector, result);
-			printResult(matrix,vector,result,i);	
-		}
-		System.out.println("=============Pool 2=============");
-		//Aufruf von 5 Tasks in Pool 2
-		for(int i=1;i<=5;++i) {
-			double[][] matrix = utils.getTestMatrix(i);
-			double[] vector = utils.getTestVector(i);
-			double[] result = new double[i];
-			utils.doIt(pool2, matrix, vector, result);
-			printResult(matrix,vector,result,i);	
-		}
-		
-		System.out.println("=============Pool 3=============");
-		//Aufruf von 1 Tasks in Pool 3
-		{
-			int i = 1;
-			double[][] matrix = utils.getTestMatrix(i);
-			double[] vector = utils.getTestVector(i);
-			double[] result = new double[i];
-			utils.doIt(pool3, matrix, vector, result);
-			printResult(matrix,vector,result,i);	
-		}
-			
+		MatrixVectorUtils utils = new MatrixVectorUtils();		
+		callDoIt(pool1,utils,3,1);
+		callDoIt(pool2,utils,5,2);
+		callDoIt(pool3,utils,7,3);			
 	}
 }
