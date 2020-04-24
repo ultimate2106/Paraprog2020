@@ -34,7 +34,7 @@ public class MainProgram {
 		int length=result.length;
 		for(int i=0;i<length;++i) 
 		{
-			int tmp=0;
+			double tmp=0;
 			for(int j=0;j<length;++j) 
 			{
 				tmp+=(matrix[i][j]*vector[j]);
@@ -50,7 +50,7 @@ public class MainProgram {
 	private static void callDoIt(ForkJoinPool pool,MatrixVectorUtils utils,int length,int poolNumber)
 	{
 		System.out.println("=============Pool "+poolNumber+"=============");
-		for(int i=0;i<length;++i) 
+		for(int i=1;i<=length;++i) 
 		{
 			System.out.println("=============Task "+i+"=============");
 			double[][] matrix = utils.getTestMatrix(length);
