@@ -50,34 +50,28 @@ public class MainProgram {
 	private static void callDoIt(ForkJoinPool pool,MatrixVectorUtils utils,int length,int poolNumber)
 	{
 		System.out.println("=============Pool "+poolNumber+"=============");
-		for(int i=0;i<length;++i) 
+		double[][] matrix = utils.getTestMatrix(length);
+		double[] vector = utils.getTestVector(length);
+		double[] result = new double[length];
+		utils.doIt(pool, matrix, vector, result);
+		if(checkResult(matrix,vector,result)) 
 		{
-			System.out.println("=============Task "+i+"=============");
-			double[][] matrix = utils.getTestMatrix(length);
-			double[] vector = utils.getTestVector(length);
-			double[] result = new double[length];
-			utils.doIt(pool, matrix, vector, result);
-			if(checkResult(matrix,vector,result)) 
-			{
-				printResult(matrix,vector,result,length);	
-			}
-			else 
-			{
-				System.out.println("Result was false");
-			}
-			System.out.println("Size of pool: "+pool.getPoolSize());
+			printResult(matrix,vector,result,length);	
+		}
+		else 
+		{
+			System.out.println("Result was false");
 		}
 	}
 	
 	
 	public static void main(String[] args) {
-		ForkJoinPool pool1 = new ForkJoinPool(50);
-		ForkJoinPool pool2 = new ForkJoinPool(1000);
-		ForkJoinPool pool3 = new ForkJoinPool(10000);
+		ForkJoinPool pool1 = new ForkJoinPool(1);
+		ForkJoinPool pool2 = new ForkJoinPool(3);
+		ForkJoinPool pool3 = new ForkJoinPool(7);
 		MatrixVectorUtils utils = new MatrixVectorUtils();		
-		callDoIt(pool1,utils,5,1);
-		callDoIt(pool2,utils,7,2);
-		callDoIt(pool3,utils,10,3);	
-		
+		callDoIt(pool1,utils,20,1);
+		callDoIt(pool2,utils,20,2);
+		callDoIt(pool3,utils,20,3);			
 	}
 }
