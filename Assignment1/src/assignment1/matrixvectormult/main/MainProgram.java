@@ -22,9 +22,11 @@ public class MainProgram {
 		calc(pool1, 1);
 		time=System.currentTimeMillis()-time;
 		System.out.println("Time Pool 1: " + time);
+		time = System.currentTimeMillis();
 		calc(pool2, 2);
 		time=System.currentTimeMillis()-time;
 		System.out.println("Time Pool 2: " + time);
+		time = System.currentTimeMillis();
 		calc(pool3, 3);
 		time=System.currentTimeMillis()-time;
 		System.out.println("Time Pool 3: " + time);
