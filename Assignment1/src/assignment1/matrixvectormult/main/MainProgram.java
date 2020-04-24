@@ -37,7 +37,7 @@ public class MainProgram {
 			double tmp=0;
 			for(int j=0;j<length;++j) 
 			{
-				tmp+=(matrix[i][j]*vector[j]);
+				tmp+=matrix[i][j]*vector[j];
 			}
 			if(tmp!=result[i]) 
 			{
@@ -75,12 +75,12 @@ public class MainProgram {
 		//		TestMatrix und TestVektor holen (Utils),
 		//		matVecMult() anstoßen.
 		ForkJoinPool pool1 = new ForkJoinPool(50);
-		ForkJoinPool pool2 = new ForkJoinPool(500);
-		ForkJoinPool pool3 = new ForkJoinPool(1000);
+		ForkJoinPool pool2 = new ForkJoinPool(1000);
+		ForkJoinPool pool3 = new ForkJoinPool(10000);
 		MatrixVectorUtils utils = new MatrixVectorUtils();		
-		callDoIt(pool1,utils,3,1);
-		callDoIt(pool2,utils,5,2);
-		callDoIt(pool3,utils,7,3);	
+		callDoIt(pool1,utils,5,1);
+		callDoIt(pool2,utils,7,2);
+		callDoIt(pool3,utils,10,3);	
 		
 	}
 }
