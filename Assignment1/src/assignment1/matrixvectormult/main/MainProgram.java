@@ -5,7 +5,9 @@ import java.util.concurrent.ForkJoinPool;
 import assignment1.matrixvectormult.utils.MatrixVectorUtils;
 
 public class MainProgram {
-	public static void printResult(double[][] matrix,double[] vector,double[] result,int length) 
+	
+	
+	private static void printResult(double[][] matrix,double[] vector,double[] result,int length) 
 	{
 		System.out.println("-----Matrix-----");
 		for(int i=0;i<length;++i) 
@@ -26,7 +28,26 @@ public class MainProgram {
 		}
 	}
 	
-	public static void callDoIt(ForkJoinPool pool,MatrixVectorUtils utils,int length,int poolNumber)
+	private static boolean checkResult(double[][] matrix, double[] vector,double result[]) 
+	{
+		boolean isResultCorrect=true; 
+		int length=result.length;
+		for(int i=0;i<length;++i) 
+		{
+			int tmp=0;
+			for(int j=0;j<length;++j) 
+			{
+				tmp+=(matrix[i][j]*vector[j]);
+			}
+			if(tmp!=result[i]) 
+			{
+				isResultCorrect=false;
+			}
+		}
+		return isResultCorrect;
+	}
+	
+	private static void callDoIt(ForkJoinPool pool,MatrixVectorUtils utils,int length,int poolNumber)
 	{
 		System.out.println("=============Pool "+poolNumber+"=============");
 		for(int i=0;i<length;++i) 
@@ -36,7 +57,15 @@ public class MainProgram {
 			double[] vector = utils.getTestVector(length);
 			double[] result = new double[length];
 			utils.doIt(pool, matrix, vector, result);
-			printResult(matrix,vector,result,length);	
+			if(checkResult(matrix,vector,result)) 
+			{
+				printResult(matrix,vector,result,length);	
+			}
+			else 
+			{
+				System.out.println("Result was false");
+			}
+			System.out.println("Size of pool: "+pool.getPoolSize());
 		}
 	}
 	
@@ -45,12 +74,13 @@ public class MainProgram {
 		//TODO: ForkJoinPool erstellen,
 		//		TestMatrix und TestVektor holen (Utils),
 		//		matVecMult() anstoßen.
-		ForkJoinPool pool1 = new ForkJoinPool();
-		ForkJoinPool pool2 = new ForkJoinPool();
-		ForkJoinPool pool3 = new ForkJoinPool();
+		ForkJoinPool pool1 = new ForkJoinPool(50);
+		ForkJoinPool pool2 = new ForkJoinPool(500);
+		ForkJoinPool pool3 = new ForkJoinPool(1000);
 		MatrixVectorUtils utils = new MatrixVectorUtils();		
 		callDoIt(pool1,utils,3,1);
 		callDoIt(pool2,utils,5,2);
-		callDoIt(pool3,utils,7,3);			
+		callDoIt(pool3,utils,7,3);	
+		
 	}
 }
