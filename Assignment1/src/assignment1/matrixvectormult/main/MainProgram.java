@@ -18,9 +18,16 @@ public class MainProgram {
 		ForkJoinPool pool2 = new ForkJoinPool(3);
 		ForkJoinPool pool3 = new ForkJoinPool(7);
 		
+		long time = System.currentTimeMillis();
 		calc(pool1, 1);
+		time = System.currentTimeMillis() - time;
+		System.out.println("Time Pool 1: "+time);
 		calc(pool2, 2);
+		time = System.currentTimeMillis() - time;
+		System.out.println("Time Pool 2: "+time);
 		calc(pool3, 3);
+		time = System.currentTimeMillis() - time;
+		System.out.println("Time Pool 3: "+time);
 	}
 	
 	private static void calc(ForkJoinPool pool, int poolNr) {
