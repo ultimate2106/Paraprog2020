@@ -29,13 +29,40 @@ public class MainProgram {
 		//TODO: ForkJoinPool erstellen,
 		//		TestMatrix und TestVektor holen (Utils),
 		//		matVecMult() anstoﬂen.
-		ForkJoinPool MVMult = new ForkJoinPool();
-		MatrixVectorUtils test = new MatrixVectorUtils();
-		int length = 3;
-		double[][] matrix = test.getTestMatrix(length);
-		double[] vector = test.getTestVector(length);
-		double[] result = new double[length];
-		test.doIt(MVMult, matrix, vector, result);
-		printResult(matrix,vector,result,length);		
+		ForkJoinPool pool1 = new ForkJoinPool();
+		ForkJoinPool pool2 = new ForkJoinPool();
+		ForkJoinPool pool3 = new ForkJoinPool();
+		MatrixVectorUtils utils = new MatrixVectorUtils();
+		
+		System.out.println("=============Pool 1=============");
+		//Aufruf von 3 Tasks in Pool 1
+		for(int i=1;i<=3;++i) {
+			double[][] matrix = utils.getTestMatrix(i);
+			double[] vector = utils.getTestVector(i);
+			double[] result = new double[i];
+			utils.doIt(pool1, matrix, vector, result);
+			printResult(matrix,vector,result,i);	
+		}
+		System.out.println("=============Pool 2=============");
+		//Aufruf von 5 Tasks in Pool 2
+		for(int i=1;i<=5;++i) {
+			double[][] matrix = utils.getTestMatrix(i);
+			double[] vector = utils.getTestVector(i);
+			double[] result = new double[i];
+			utils.doIt(pool2, matrix, vector, result);
+			printResult(matrix,vector,result,i);	
+		}
+		
+		System.out.println("=============Pool 3=============");
+		//Aufruf von 1 Tasks in Pool 3
+		{
+			int i = 1;
+			double[][] matrix = utils.getTestMatrix(i);
+			double[] vector = utils.getTestVector(i);
+			double[] result = new double[i];
+			utils.doIt(pool3, matrix, vector, result);
+			printResult(matrix,vector,result,i);	
+		}
+			
 	}
 }
