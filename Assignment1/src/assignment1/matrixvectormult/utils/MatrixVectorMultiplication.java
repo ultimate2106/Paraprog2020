@@ -29,17 +29,6 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 	
 	@Override
 	protected void compute() {
-		//TODO: Hier muss mittels DivideAndConquer die Aufgabe
-		//		verteilt werden.
-		//		Siehe dazu: https://www.geeksforgeeks.org/java-util-concurrent-recursiveaction-class-in-java-with-examples/
-
-		// Am besten sollten die Aufgaben einfach nur auf
-		// die erste Dimension der Matrix beschränkt werden.
-		// Das bedeutet jeder Task (Instanz von dieser Klasse)
-		// übernimmt die multiplikation des Vectors mit
-		// entsprechend vielen Reihen aus der Matrix.
-		//Von Benjamin: wir arbeiten mit quadratischen Matrizen
-		//dementsprechend ist length=matrix.length=matrix[x].length=vector.length=result.length
 		if((length-startIndex)>1) {
 			int mid=(startIndex+length)/2;		
 			invokeAll(new MatrixVectorMultiplication(matrix,vector,result,startIndex,mid),

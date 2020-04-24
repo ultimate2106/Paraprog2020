@@ -71,9 +71,6 @@ public class MainProgram {
 	
 	
 	public static void main(String[] args) {
-		//TODO: ForkJoinPool erstellen,
-		//		TestMatrix und TestVektor holen (Utils),
-		//		matVecMult() anstoﬂen.
 		ForkJoinPool pool1 = new ForkJoinPool(50);
 		ForkJoinPool pool2 = new ForkJoinPool(1000);
 		ForkJoinPool pool3 = new ForkJoinPool(10000);
