@@ -6,7 +6,7 @@ import assignment1.matrixvectormult.utils.MatrixVectorMultiplication;
 import assignment1.matrixvectormult.utils.MatrixVectorUtils;
 
 public class MainProgram {
-	private static final int length = 7;
+	private static final int length = 77;
 	private static double[][] matrix;
 	private static double[] vector;
 	
@@ -17,10 +17,17 @@ public class MainProgram {
 		ForkJoinPool pool1 = new ForkJoinPool(1);
 		ForkJoinPool pool2 = new ForkJoinPool(3);
 		ForkJoinPool pool3 = new ForkJoinPool(7);
-
+		
+		long time=System.currentTimeMillis();
 		calc(pool1, 1);
+		time=System.currentTimeMillis()-time;
+		System.out.println("Time Pool 1: " + time);
 		calc(pool2, 2);
+		time=System.currentTimeMillis()-time;
+		System.out.println("Time Pool 2: " + time);
 		calc(pool3, 3);
+		time=System.currentTimeMillis()-time;
+		System.out.println("Time Pool 3: " + time);
 	}
 	
 	private static void calc(ForkJoinPool pool, int poolNr) {
@@ -28,7 +35,7 @@ public class MainProgram {
 		
 		System.out.println("=============Pool " + poolNr + "=============");
 		doIt(pool, matrix, vector, result);
-		printResult(result);
+		//printResult(result);
 	}
 	
 	private static void printResult(double[] result) 
