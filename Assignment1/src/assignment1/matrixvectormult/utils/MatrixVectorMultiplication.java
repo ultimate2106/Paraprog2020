@@ -29,16 +29,14 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 	
 	@Override
 	protected void compute() {
-		if((length-startIndex)>1) {
-			int mid=(startIndex+length)/2;		
+		if((length - startIndex) > 1) {
+			int mid = (startIndex+length) / 2;		
 			invokeAll(new MatrixVectorMultiplication(matrix,vector,result,startIndex,mid),
 					 new MatrixVectorMultiplication(matrix,vector,result,mid,length));
 		}
 		else 
 		{
-			for(int i=0;i<vector.length;++i) {
-				result[startIndex] += matrix[startIndex][i] * vector[i];
-			}	
+			result[startIndex] = MatrixVectorUtils.multVecVec(matrix[startIndex], vector);
 		}
 	}
 }

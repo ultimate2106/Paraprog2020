@@ -35,20 +35,20 @@ public class MainProgram {
 	{
 		if(checkResult(result)) {
 			System.out.println("-----Matrix-----");
-			for(int i=0;i<length;++i) 
+			for(int i = 0; i < length; ++i) 
 			{
-				for(int j=0;j<length;++j) 
+				for(int j = 0; j < length; ++j) 
 				{
-					System.out.print(matrix[i][j]+" ");
+					System.out.print(matrix[i][j] + " ");
 				}
 				System.out.println();
 			}
 			System.out.println("-----Vector-----");
-			for(int i=0;i<length;++i) {
+			for(int i = 0; i < length; ++i) {
 				System.out.println(vector[i]);
 			}
 			System.out.println("-----Result-----");
-			for(int i=0;i<length;++i) {
+			for(int i = 0; i < length; ++i) {
 				System.out.println(result[i]);
 			}
 		} else {
@@ -59,15 +59,15 @@ public class MainProgram {
 	private static boolean checkResult(double[] result) 
 	{
 		boolean isResultCorrect=true; 
-		int length=result.length;
-		for(int i=0;i<length;++i) 
+		
+		for(int i = 0; i < length; ++i) 
 		{
-			double tmp=0;
-			for(int j=0;j<length;++j) 
+			double tmp = 0;
+			for(int j = 0; j < length; ++j) 
 			{
-				tmp+=matrix[i][j]*vector[j];
+				tmp += matrix[i][j] * vector[j];
 			}
-			if(tmp!=result[i]) 
+			if(tmp != result[i]) 
 			{
 				isResultCorrect=false;
 			}
