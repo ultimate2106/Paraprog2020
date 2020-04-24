@@ -17,7 +17,7 @@ public class MainProgram {
 		ForkJoinPool pool1 = new ForkJoinPool(1);
 		ForkJoinPool pool2 = new ForkJoinPool(3);
 		ForkJoinPool pool3 = new ForkJoinPool(7);
-		
+
 		calc(pool1, 1);
 		calc(pool2, 2);
 		calc(pool3, 3);
