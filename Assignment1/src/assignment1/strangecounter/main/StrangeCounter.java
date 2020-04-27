@@ -91,7 +91,8 @@ public class StrangeCounter {
 	}
 	
 	/**
-	 * 
+	 * In der main werden die einzelnen Tests gestartet, so dass durch diese Schleife und der
+	 * Methode startTest jeder Counter Typ mit jedem Executor Service gestartet wurde.
 	 * @param args
 	 */
 	public static void main(String[] args) {	
