@@ -26,7 +26,7 @@ public class StrangeCounter {
 	 * mithilfe von switch entschieden, mit welchem Executor Service gearbeitet werden soll.
 	 * In einer Schleife wird das Thread Array mit Threads gefüllt und direkt gestartet.
 	 * 
-	 * @param executorType Auswahlmöglichkeit der einzelnen Executor Services.
+	 * @param executorService Auswahlmöglichkeit der einzelnen Executor Services.
 	 * @param counter Objekt MyLong, MyLongAtomic oder MyLongAtomicModul
 	 */
 	private static void test(ExecutorService executorService,CounterInterface counter) 
