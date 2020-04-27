@@ -24,6 +24,7 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 	private final int length;
 	
 	/**
+	 * Dieser Konstruktor inizialisiert die folgenden Variablen.
 	 * 
 	 * @param matrix Quadratische Matrix
 	 * @param vector Vektor
@@ -40,6 +41,11 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 		this.length = length;
 	}
 	
+	/**
+	 * Bei dieser Methode wird die Berechnung der Matrix mit dem Vektor aufgeteilt nach dem 
+	 * divide and conquer. Dafür wird die Arbeit auf die einzelnen Reihen der Matrix runtergebrochen
+	 * und mit dem Vektor in einer seperaten Methode Multipliziert.
+	 */
 	@Override
 	protected void compute() {
 		if((length - startIndex) > 1) {

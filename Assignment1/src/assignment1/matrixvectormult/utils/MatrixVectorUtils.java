@@ -10,6 +10,8 @@ import java.util.Random;
 public class MatrixVectorUtils {
 	
 	/**
+	 * Diese Methode erzeugt eine Quadratische Matrix der Größe dim x dim
+	 * die mit zufälligen Zahlen gefüllt wird.
 	 * 
 	 * @param dim Größe der Matrix
 	 * @return Quadratische Matrix der Größe dim
@@ -33,6 +35,8 @@ public class MatrixVectorUtils {
 	}
 	
 	/**
+	 * Diese Methode erzeugt einen Vektor der Größe dim der mit
+	 * zufälligen Zahlen gefüllt wird.
 	 * 
 	 * @param dim Größe des Vektors
 	 * @return Vektor der größe dim
@@ -50,6 +54,9 @@ public class MatrixVectorUtils {
 	}
 	
 	/**
+	 * Hier wird eine Reihe der Matrix mit dem Vektor Multipliziert.
+	 * Hierfür werden die einzelnen Zeilen der beiden Vektoren miteinander
+	 * Multipliziert und als Ergebnis auf eine Variable hinzu Addiert. 
 	 * 
 	 * @param vec1 Erster Vektor
 	 * @param vec2 Zweiter Vektor
