@@ -7,7 +7,7 @@ import java.util.Random;
  * zum erzeugen einer zufälligen Matrix und eines zufälligen Vektors,
  * sowie eine Methode zur Berechnung zweier Vektoren. 
  * 
- * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
 public class MatrixVectorUtils {

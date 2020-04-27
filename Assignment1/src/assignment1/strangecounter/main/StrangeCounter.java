@@ -10,7 +10,7 @@ import assignment1.strangecounter.mylong.MyLongAtomicModulo;
 
 /**
  * 
- * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
 public class StrangeCounter {
@@ -57,11 +57,11 @@ public class StrangeCounter {
 	}
 	
 	/**
-	 * Ruft die Methode test 
+	 * Ruft die Methode test einige Mal auf mit der jeweiligen Instanz von CounterInterface und dem jeweiligen ExecutorService.
 	 * @param name Name des Tests
 	 * @param length Anzahl an Tests
-	 * @param executorType
-	 * @param counterType
+	 * @param executorService ExecutorService der Benutzt wird
+	 * @param counterType Zahl die bestimmt welche Instanz von CounterInterface benutzt wird
 	 */
 	private static void startTest(String name, int length,ExecutorService executorService,int counterType) 
 	{
@@ -91,8 +91,8 @@ public class StrangeCounter {
 	}
 	
 	/**
-	 * In der main werden die einzelnen Tests gestartet, so dass durch diese Schleife und der
-	 * Methode startTest jeder Counter Typ mit jedem Executor Service gestartet wurde.
+	 * Ruft die startTest Methode mit keinem,dem CachedThreadPool, dem FixedThreadPool und dem SingleThreadPool auf.
+	 * Dies geschieht einmal für MyLong, einmal für MyLongAtomic und einmal für MyLongAtomicModulo.
 	 * @param args
 	 */
 	public static void main(String[] args) {	

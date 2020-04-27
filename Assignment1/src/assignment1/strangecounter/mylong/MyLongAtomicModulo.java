@@ -3,7 +3,7 @@ package assignment1.strangecounter.mylong;
 import java.util.function.LongBinaryOperator;
 /**
  * 
- * @author User Dominic Schroeder
+ * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
 public class MyLongAtomicModulo extends MyLongAtomic {

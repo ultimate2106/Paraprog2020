@@ -6,7 +6,7 @@ import assignment1.strangecounter.interfaces.CounterInterface;
 
 /**
  * 
- * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
 public class Incrementer implements Runnable {

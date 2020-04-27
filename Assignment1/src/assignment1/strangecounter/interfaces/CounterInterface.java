@@ -1,5 +1,9 @@
 package assignment1.strangecounter.interfaces;
-
+/**
+ * 
+ * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ *
+ */
 public interface CounterInterface {	
 	/**
 	 * Abstrakte Methode die den aktuellen Zählerstand zurückgibt
