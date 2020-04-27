@@ -6,10 +6,24 @@ import assignment1.matrixvectormult.utils.MatrixVectorMultiplication;
 import assignment1.matrixvectormult.utils.MatrixVectorUtils;
 
 public class MainProgram {
+	/**
+	 * Länge der Matrix, des Vektors und des Ergebnisvektors
+	 */
 	private static final int length = 1000;
+	/**
+	 * Zweidimensionales Array dass eine Matrix darstellen soll
+	 */
 	private static double[][] matrix;
+	/**
+	 * Eindimensionales Array dass einen Vektor darstellen soll
+	 */
 	private static double[] vector;
 	
+	/**
+	 * Main Methode der Matrix Vektor Multiplikation. Die die Arrays Matrix und Vector
+	 * intialisiert drei verschiedene ForkJoinPools und ruft drei mal die calc Methode auf. 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		matrix = MatrixVectorUtils.getTestMatrix(length);
 		vector = MatrixVectorUtils.getTestVector(length);
@@ -23,6 +37,12 @@ public class MainProgram {
 		calc(pool3, 3);
 	}
 	
+	/**
+	 * Diese Methode erstellt einen Ergebnisvektor und übergibt ihn zusammen mit
+	 * dem ForkJoinPool, der Matrix und dem Vector der doIt Methode  
+	 * @param pool   Der ForkJoinPool der für die Rechnung benutzt wird.
+	 * @param poolNr Nummer zur unterscheidung der Pools
+	 */
 	private static void calc(ForkJoinPool pool, int poolNr) {
 		double[] result = new double[length];
 		
@@ -30,7 +50,10 @@ public class MainProgram {
 		doIt(pool, matrix, vector, result);
 		//printResult(result);
 	}
-	
+	/**
+	 * Diese Methode gibt die Matrix den mit zu multiplizierenden Vektor und das Ergebnis auf der Konsole aus.
+	 * @param result Das Ergebnis von MatrixVectorMultiplication
+	 */
 	private static void printResult(double[] result) 
 	{
 		if(checkResult(result)) {
@@ -56,6 +79,14 @@ public class MainProgram {
 		}	
 	}
 	
+	
+	/**
+	 * Diese Methode berechnet sequentiell eine Matrix Vector Multiplikation,
+	 * um das Ergebnis von MatrixVectorMultiplication zu überprüfen
+	 * @param   result Das Ergebnis von MatrixVectorMultiplication
+	 * @return Gibt an ob das Ergebnis von MatrixVectorMultiplication richtig oder falsch ist 
+	 * 
+	 */
 	private static boolean checkResult(double[] result) 
 	{
 		boolean isResultCorrect=true; 
