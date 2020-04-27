@@ -1,6 +1,6 @@
 package assignment1.strangecounter.interfaces;
 /**
- * 
+ * Ein Interface dass dazu dient den Long Typen einzukapseln.
  * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
