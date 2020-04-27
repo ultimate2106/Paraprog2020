@@ -3,6 +3,9 @@ package assignment1.matrixvectormult.utils;
 import java.util.Random;
 
 /**
+ * In dieser Klasse befinden sich die ausgelagerten Methoden 
+ * zum erzeugen einer zufälligen Matrix und eines zufälligen Vektors,
+ * sowie eine Methode zur Berechnung zweier Vektoren. 
  * 
  * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
  *
