@@ -56,9 +56,16 @@ public class StrangeCounter {
 		}
 	}
 	
+	/**
+	 * Ruft die Methode test 
+	 * @param name Name des Tests
+	 * @param length Anzahl an Tests
+	 * @param executorType
+	 * @param counterType
+	 */
 	private static void startTest(String name, int length,int executorType,int counterType) 
 	{
-		for(int i=0;i<10;++i) 
+		for(int i=0;i<length;++i) 
 		{
 			CounterInterface counter=null;
 			switch(counterType)
@@ -83,6 +90,10 @@ public class StrangeCounter {
 		System.out.println();
 	}
 	
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {	
 		
 		for(int counterType=1;counterType<=3;++counterType) {
@@ -92,29 +103,5 @@ public class StrangeCounter {
 			startTest("FixedThreadPool",10,2,counterType);
 			startTest("SingleThreadPool",10,3,counterType);	
 		}
-		
-		/*CountDownLatch startLatch = new CountDownLatch(1);
-		CountDownLatch endLatch = new CountDownLatch(INCREMENTERS);
-		Thread[] Incrementers = new Thread[INCREMENTERS];
-		
-		ExecutorService executorService=Executors.newCachedThreadPool();
-		//ExecutorService executorService=Executors.newFixedThreadPool(INCREMENTERS);
-		//ExecutorService executorService=Executors.newSingleThreadExecutor();
-		for (int i = 0; i < INCREMENTERS; i++) {
-			//Incrementers[i] = new Thread(new Incrementer(startLatch, endLatch, counter, RUNS));
-			//Incrementers[i].start();
-			executorService.submit(new Incrementer(startLatch,endLatch,counter,RUNS));
-		}
-		
-		try {
-			System.out.println("Starting with counter = "+ counter.get());
-			startLatch.countDown();
-			endLatch.await();
-			long totalInc = RUNS * INCREMENTERS;
-			//System.out.println("Finished after " + totalInc+ " increments with counter = "+ counter.get());
-			System.out.println("Finished after " + totalInc+ " increments with counter = "+ counter.get());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
 	}
 }
