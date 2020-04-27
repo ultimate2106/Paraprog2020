@@ -2,12 +2,17 @@ package assignment1.matrixvectormult.utils;
 
 import java.util.Random;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ *
+ */
 public class MatrixVectorUtils {
 	
 	/**
 	 * 
-	 * @param dim
-	 * @return Quadratische Matrix der größe dim
+	 * @param dim Größe der Matrix
+	 * @return Quadratische Matrix der Größe dim
 	 */
 	public static double[][] getTestMatrix(int dim) {
 //		double[][] testMatrix = {
@@ -29,7 +34,7 @@ public class MatrixVectorUtils {
 	
 	/**
 	 * 
-	 * @param dim
+	 * @param dim Größe des Vektors
 	 * @return Vektor der größe dim
 	 */
 	public static double[] getTestVector(int dim) {
@@ -44,6 +49,12 @@ public class MatrixVectorUtils {
 		return testVector;
 	}
 	
+	/**
+	 * 
+	 * @param vec1 Erster Vektor
+	 * @param vec2 Zweiter Vektor
+	 * @return Ergebnis der Vektoren
+	 */
 	public static double multVecVec(double[] vec1, double[] vec2) {
 		double result = 0;
 		

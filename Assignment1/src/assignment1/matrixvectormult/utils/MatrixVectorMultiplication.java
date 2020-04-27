@@ -2,6 +2,11 @@ package assignment1.matrixvectormult.utils;
 
 import java.util.concurrent.RecursiveAction;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ *
+ */
 @SuppressWarnings("serial")
 public class MatrixVectorMultiplication extends RecursiveAction {
 
@@ -18,6 +23,14 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 	//		berechnenden Reihen. Sollten wir nochmal fragen.
 	private final int length;
 	
+	/**
+	 * 
+	 * @param matrix Quadratische Matrix
+	 * @param vector Vektor
+	 * @param result Ergebnis der Multiplikation von Matrix und Vektor
+	 * @param startIndex Startwert der Berechnung
+	 * @param length Endwert der Berechnung
+	 */
 	public MatrixVectorMultiplication(final double[][] matrix, final double[] vector,
 			final double[] result, final int startIndex, final int length) {
 		this.matrix = matrix;
