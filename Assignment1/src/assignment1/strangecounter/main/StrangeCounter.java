@@ -26,25 +26,11 @@ public class StrangeCounter {
 	 * @param executorType Auswahlmöglichkeit der einzelnen Executor Services.
 	 * @param counter Objekt MyLong, MyLongAtomic oder MyLongAtomicModul
 	 */
-	private static void test(int executorType,CounterInterface counter) 
+	private static void test(ExecutorService executorService,CounterInterface counter) 
 	{
 		CountDownLatch startLatch = new CountDownLatch(1);
 		CountDownLatch endLatch = new CountDownLatch(INCREMENTERS);
-		Thread[] Incrementers = new Thread[INCREMENTERS];
-		
-		ExecutorService executorService=null;
-		switch(executorType) 
-		{
-			case 1:
-				executorService=Executors.newCachedThreadPool();
-				break;
-			case 2:
-				executorService=Executors.newFixedThreadPool(INCREMENTERS);
-				break;
-			case 3:
-				executorService=Executors.newSingleThreadExecutor();
-				break;
-		}		
+		Thread[] Incrementers = new Thread[INCREMENTERS];	
 		
 		for (int i = 0; i < INCREMENTERS; i++) {
 			if(executorService==null) 
@@ -77,7 +63,7 @@ public class StrangeCounter {
 	 * @param executorType
 	 * @param counterType
 	 */
-	private static void startTest(String name, int length,int executorType,int counterType) 
+	private static void startTest(String name, int length,ExecutorService executorService,int counterType) 
 	{
 		for(int i=0;i<length;++i) 
 		{
@@ -98,7 +84,7 @@ public class StrangeCounter {
 					break;
 			}
 			System.out.println(name+" Test "+i);
-			test(executorType,counter);
+			test(executorService,counter);
 			System.out.println();
 		}
 		System.out.println();
@@ -112,10 +98,10 @@ public class StrangeCounter {
 		
 		for(int counterType=1;counterType<=3;++counterType) {
 			System.out.println("----------------------------------------------");
-			startTest("Normal Threads",10,0,counterType);
-			startTest("CachedThreadPool",10,1,counterType);
-			startTest("FixedThreadPool",10,2,counterType);
-			startTest("SingleThreadPool",10,3,counterType);	
+			startTest("Normal Threads",10,null,counterType);
+			startTest("CachedThreadPool",10,Executors.newCachedThreadPool(),counterType);
+			startTest("FixedThreadPool",10,Executors.newFixedThreadPool(INCREMENTERS),counterType);
+			startTest("SingleThreadPool",10,Executors.newSingleThreadExecutor(),counterType);	
 		}
 	}
 }
