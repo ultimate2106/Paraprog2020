@@ -96,7 +96,7 @@ public class StrangeCounter {
 	/**
 	 * Ruft die startTest Methode mit keinem,dem CachedThreadPool, dem FixedThreadPool und dem SingleThreadPool auf.
 	 * Dies geschieht einmal für MyLong, einmal für MyLongAtomic und einmal für MyLongAtomicModulo.
-	 * @param args
+	 * @param args Übergebene Argumente
 	 */
 	public static void main(String[] args) {	
 		

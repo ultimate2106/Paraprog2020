@@ -26,7 +26,7 @@ public class MainProgram {
 	/**
 	 * Main Methode der Matrix Vektor Multiplikation. Die die Arrays Matrix und Vector
 	 * intialisiert drei verschiedene ForkJoinPools und ruft drei mal die calc Methode auf. 
-	 * @param args
+	 * @param args Übergebene Argumente
 	 */
 	public static void main(String[] args) {
 		matrix = MatrixVectorUtils.getTestMatrix(length);

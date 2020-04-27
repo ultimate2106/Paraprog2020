@@ -18,10 +18,10 @@ public class Incrementer implements Runnable {
 	/**
 	 * In diesem Konstruktor werden folgende Variablen inizialisiert.
 	 * 
-	 * @param start
-	 * @param end
-	 * @param counter
-	 * @param runs
+	 * @param start Startsignal 
+	 * @param end Endsignal
+	 * @param counter Objekt des Counters
+	 * @param runs Anzahl der durchläufe
 	 */
 	public Incrementer(CountDownLatch start,CountDownLatch end, CounterInterface counter, int runs) {
 		this.RUNS = runs;
