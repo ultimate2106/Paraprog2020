@@ -8,10 +8,24 @@ import assignment1.strangecounter.mylong.MyLong;
 import assignment1.strangecounter.mylong.MyLongAtomic;
 import assignment1.strangecounter.mylong.MyLongAtomicModulo;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ *
+ */
 public class StrangeCounter {
 	private final static int INCREMENTERS = 20;
 	private final static int RUNS = 50;
 	
+	/**
+	 * In dieser Methode wird der CountDownLatch mit seinem Start- und Grenzwert erzeugt
+	 * sowie ein Array aus Threads. Durch den übergebenen Wert executorType wird
+	 * mithilfe von switch entschieden, mit welchem Executor Service gearbeitet werden soll.
+	 * In einer Schleife wird das Thread Array mit Threads gefüllt und direkt gestartet.
+	 * 
+	 * @param executorType Auswahlmöglichkeit der einzelnen Executor Services.
+	 * @param counter Objekt MyLong, MyLongAtomic oder MyLongAtomicModul
+	 */
 	private static void test(int executorType,CounterInterface counter) 
 	{
 		CountDownLatch startLatch = new CountDownLatch(1);
