@@ -5,6 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import assignment1.strangecounter.interfaces.CounterInterface;
 
 /**
+ * In dieser Klasse wird der Counter mithilfe der Threads hochgezählt.
  * 
  * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
