@@ -70,9 +70,16 @@ public class StrangeCounter {
 		}
 	}
 	
+	/**
+	 * Ruft die Methode test 
+	 * @param name Name des Tests
+	 * @param length Anzahl an Tests
+	 * @param executorType
+	 * @param counterType
+	 */
 	private static void startTest(String name, int length,int executorType,int counterType) 
 	{
-		for(int i=0;i<10;++i) 
+		for(int i=0;i<length;++i) 
 		{
 			CounterInterface counter=null;
 			switch(counterType)
@@ -97,6 +104,10 @@ public class StrangeCounter {
 		System.out.println();
 	}
 	
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {	
 		
 		for(int counterType=1;counterType<=3;++counterType) {
