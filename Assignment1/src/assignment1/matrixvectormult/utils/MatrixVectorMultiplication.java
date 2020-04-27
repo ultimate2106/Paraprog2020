@@ -2,6 +2,14 @@ package assignment1.matrixvectormult.utils;
 
 import java.util.concurrent.RecursiveAction;
 
+/**
+ * Diese Klasse ist für die Aufteilung der Aufgaben zuständig und 
+ * um dann die einzelnen Berechnungen zu starten.
+ * 
+ * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ * 
+ *
+ */
 @SuppressWarnings("serial")
 public class MatrixVectorMultiplication extends RecursiveAction {
 
@@ -18,6 +26,15 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 	//		berechnenden Reihen. Sollten wir nochmal fragen.
 	private final int length;
 	
+	/**
+	 * Dieser Konstruktor inizialisiert die folgenden Variablen.
+	 * 
+	 * @param matrix Quadratische Matrix
+	 * @param vector Vektor
+	 * @param result Ergebnis der Multiplikation von Matrix und Vektor
+	 * @param startIndex Startwert der Berechnung
+	 * @param length Endwert der Berechnung
+	 */
 	public MatrixVectorMultiplication(final double[][] matrix, final double[] vector,
 			final double[] result, final int startIndex, final int length) {
 		this.matrix = matrix;
@@ -27,6 +44,11 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 		this.length = length;
 	}
 	
+	/**
+	 * Bei dieser Methode wird die Berechnung der Matrix mit dem Vektor aufgeteilt nach dem 
+	 * divide and conquer. Dafür wird die Arbeit auf die einzelnen Reihen der Matrix runtergebrochen
+	 * und mit dem Vektor in einer seperaten Methode Multipliziert.
+	 */
 	@Override
 	protected void compute() {
 		if((length - startIndex) > 1) {

@@ -4,11 +4,24 @@ import java.util.concurrent.CountDownLatch;
 
 import assignment1.strangecounter.interfaces.CounterInterface;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ *
+ */
 public class Incrementer implements Runnable {
 	private CounterInterface counter;
 	private final CountDownLatch start, end;
 	private final int RUNS;
 	
+	/**
+	 * In diesem Konstruktor werden folgende Variablen inizialisiert.
+	 * 
+	 * @param start
+	 * @param end
+	 * @param counter
+	 * @param runs
+	 */
 	public Incrementer(CountDownLatch start,CountDownLatch end, CounterInterface counter, int runs) {
 		this.RUNS = runs;
 		this.start = start;
@@ -16,6 +29,11 @@ public class Incrementer implements Runnable {
 		this.counter = counter;
 	}
 	
+	/**
+	 * In dieser Methode werden die Threads zusammengeführt, die danach in einer Schleife einen Zähler mithilfe
+	 * einer exterenen Methode hochzählen. Nach dieser Schleife werden die Threads beendet.
+	 * Falls dabei ein Fehler auftritt, wird dieser aufgefangen und ausgegeben.
+	 */
 	@Override
 	public void run() {
 		try {
