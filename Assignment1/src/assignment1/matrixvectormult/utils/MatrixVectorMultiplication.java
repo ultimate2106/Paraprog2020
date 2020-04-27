@@ -5,8 +5,8 @@ import java.util.concurrent.RecursiveAction;
 /**
  * Diese Klasse ist für die Aufteilung der Aufgaben zuständig und 
  * um dann die einzelnen Berechnungen zu starten.
- * 
- * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ *
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  * 
  *
  */

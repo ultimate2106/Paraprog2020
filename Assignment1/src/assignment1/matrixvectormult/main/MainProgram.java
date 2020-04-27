@@ -4,7 +4,11 @@ import java.util.concurrent.ForkJoinPool;
 
 import assignment1.matrixvectormult.utils.MatrixVectorMultiplication;
 import assignment1.matrixvectormult.utils.MatrixVectorUtils;
-
+/**
+ * 
+ * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ *
+ */
 public class MainProgram {
 	/**
 	 * Länge der Matrix, des Vektors und des Ergebnisvektors
