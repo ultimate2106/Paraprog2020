@@ -8,10 +8,24 @@ import assignment1.strangecounter.mylong.MyLong;
 import assignment1.strangecounter.mylong.MyLongAtomic;
 import assignment1.strangecounter.mylong.MyLongAtomicModulo;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schröder, Dominic Jäger
+ *
+ */
 public class StrangeCounter {
 	private final static int INCREMENTERS = 20;
 	private final static int RUNS = 50;
 	
+	/**
+	 * In dieser Methode wird der CountDownLatch mit seinem Start- und Grenzwert erzeugt
+	 * sowie ein Array aus Threads. Durch den übergebenen Wert executorType wird
+	 * mithilfe von switch entschieden, mit welchem Executor Service gearbeitet werden soll.
+	 * In einer Schleife wird das Thread Array mit Threads gefüllt und direkt gestartet.
+	 * 
+	 * @param executorType Auswahlmöglichkeit der einzelnen Executor Services.
+	 * @param counter Objekt MyLong, MyLongAtomic oder MyLongAtomicModul
+	 */
 	private static void test(int executorType,CounterInterface counter) 
 	{
 		CountDownLatch startLatch = new CountDownLatch(1);
@@ -92,29 +106,5 @@ public class StrangeCounter {
 			startTest("FixedThreadPool",10,2,counterType);
 			startTest("SingleThreadPool",10,3,counterType);	
 		}
-		
-		/*CountDownLatch startLatch = new CountDownLatch(1);
-		CountDownLatch endLatch = new CountDownLatch(INCREMENTERS);
-		Thread[] Incrementers = new Thread[INCREMENTERS];
-		
-		ExecutorService executorService=Executors.newCachedThreadPool();
-		//ExecutorService executorService=Executors.newFixedThreadPool(INCREMENTERS);
-		//ExecutorService executorService=Executors.newSingleThreadExecutor();
-		for (int i = 0; i < INCREMENTERS; i++) {
-			//Incrementers[i] = new Thread(new Incrementer(startLatch, endLatch, counter, RUNS));
-			//Incrementers[i].start();
-			executorService.submit(new Incrementer(startLatch,endLatch,counter,RUNS));
-		}
-		
-		try {
-			System.out.println("Starting with counter = "+ counter.get());
-			startLatch.countDown();
-			endLatch.await();
-			long totalInc = RUNS * INCREMENTERS;
-			//System.out.println("Finished after " + totalInc+ " increments with counter = "+ counter.get());
-			System.out.println("Finished after " + totalInc+ " increments with counter = "+ counter.get());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
 	}
 }
