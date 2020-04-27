@@ -9,6 +9,9 @@ import assignment1.strangecounter.mylong.MyLongAtomic;
 import assignment1.strangecounter.mylong.MyLongAtomicModulo;
 
 /**
+ * In dieser Klasse befindet sich die main.
+ * Hier werden die einzelnen Counter Typen mit den verschiedenen
+ * Executor Services mithilfe von Threads hochgezählt.
  * 
  * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
