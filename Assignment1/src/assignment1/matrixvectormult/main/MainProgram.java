@@ -5,7 +5,7 @@ import java.util.concurrent.ForkJoinPool;
 import assignment1.matrixvectormult.utils.MatrixVectorMultiplication;
 import assignment1.matrixvectormult.utils.MatrixVectorUtils;
 /**
- * 
+ * Das MainProgram stellt verschiedene Methoden zu Verfügung um die Matrix Vektor Multiplikation zu testen.
  * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */

@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import assignment1.strangecounter.interfaces.CounterInterface;
 
 /**
- * 
+ * Kapselt den LongAtomic typen ein und stellt Methoden zur Rückgabe und erhöhung des Typens zu Verfügung
  * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
