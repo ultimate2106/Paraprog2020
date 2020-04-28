@@ -21,10 +21,9 @@ public class StrangeCounter {
 	private final static int RUNS = 50;
 	
 	/**
-	 * In dieser Methode wird der CountDownLatch mit seinem Start- und Grenzwert erzeugt
-	 * sowie ein Array aus Threads. Durch den übergebenen Wert executorType wird
-	 * mithilfe von switch entschieden, mit welchem Executor Service gearbeitet werden soll.
-	 * In einer Schleife wird das Thread Array mit Threads gefüllt und direkt gestartet.
+	 * Mithilfe des übergebenen Executor Service wird das übergebene Counter Objekt hochgezählt.
+	 * Die Globale Variable Incrementer bestimmt die Anzahl der Threads.
+	 * Die Globale Variable Runs bestimmt die Anzahl der Zählzyklen.
 	 * 
 	 * @param executorService Auswahlmöglichkeit der einzelnen Executor Services.
 	 * @param counter Objekt MyLong, MyLongAtomic oder MyLongAtomicModul
@@ -60,7 +59,8 @@ public class StrangeCounter {
 	}
 	
 	/**
-	 * Ruft die Methode test einige Mal auf mit der jeweiligen Instanz von CounterInterface und dem jeweiligen ExecutorService.
+	 * Mit dem übergebenen Counter Typ und dem Executor Service wird die Methode @see test aufgerufen.
+	 * 
 	 * @param name Name des Tests
 	 * @param length Anzahl an Tests
 	 * @param executorService ExecutorService der Benutzt wird
@@ -93,11 +93,6 @@ public class StrangeCounter {
 		System.out.println();
 	}
 	
-	/**
-	 * Ruft die startTest Methode mit keinem,dem CachedThreadPool, dem FixedThreadPool und dem SingleThreadPool auf.
-	 * Dies geschieht einmal für MyLong, einmal für MyLongAtomic und einmal für MyLongAtomicModulo.
-	 * @param args Übergebene Argumente
-	 */
 	public static void main(String[] args) {	
 		
 		for(int counterType=1;counterType<=3;++counterType) {
