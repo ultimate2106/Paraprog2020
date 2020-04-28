@@ -6,7 +6,7 @@ import assignment1.strangecounter.interfaces.CounterInterface;
 
 /**
  * Kapselt den LongAtomic typen ein.
- * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
 public class MyLongAtomic implements CounterInterface {

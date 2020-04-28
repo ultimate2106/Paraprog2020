@@ -3,7 +3,7 @@ package assignment1.strangecounter.mylong;
 import assignment1.strangecounter.interfaces.CounterInterface;
 /**
  * Dient zur Einkapselung des Long Typen
- * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
 public class MyLong implements CounterInterface {

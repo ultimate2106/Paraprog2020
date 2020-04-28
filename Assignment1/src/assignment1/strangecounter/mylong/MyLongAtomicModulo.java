@@ -3,7 +3,7 @@ package assignment1.strangecounter.mylong;
 import java.util.function.LongBinaryOperator;
 /**
  * Kapselt den LongAtomic typen ein. Bei jeder Erhöhung des Zählerstandes wird mod 16 gerechnet
- * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
 public class MyLongAtomicModulo extends MyLongAtomic {
