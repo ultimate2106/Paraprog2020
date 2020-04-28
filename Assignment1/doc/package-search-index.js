@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"assignment1.matrixvectormult.main"},{"l":"assignment1.matrixvectormult.utils"},{"l":"assignment1.strangecounter.interfaces"},{"l":"assignment1.strangecounter.main"},{"l":"assignment1.strangecounter.mylong"}]
