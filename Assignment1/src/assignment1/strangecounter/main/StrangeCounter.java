@@ -9,9 +9,7 @@ import assignment1.strangecounter.mylong.MyLongAtomic;
 import assignment1.strangecounter.mylong.MyLongAtomicModulo;
 
 /**
- * In dieser Klasse befindet sich die main.
- * Hier werden die einzelnen Counter Typen mit den verschiedenen
- * Executor Services mithilfe von Threads hochgezählt.
+ * Hier befindet
  * 
  * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
@@ -71,6 +69,7 @@ public class StrangeCounter {
 		for(int i=0;i<length;++i) 
 		{
 			CounterInterface counter=null;
+			
 			switch(counterType)
 			{
 				case 1: 
@@ -86,6 +85,7 @@ public class StrangeCounter {
 					counter=new MyLong();
 					break;
 			}
+			
 			System.out.println(name+" Test "+i);
 			test(executorService,counter);
 			System.out.println();

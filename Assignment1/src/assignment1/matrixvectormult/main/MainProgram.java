@@ -13,7 +13,6 @@ import assignment1.matrixvectormult.utils.MatrixVectorUtils;
 public class MainProgram {
 
 	//Länge der Matrix, des Vektors und des Ergebnisvektors
-	
 	private static final int length = 1000;
 
 	//Zweidimensionales Array dass eine Matrix darstellen soll
