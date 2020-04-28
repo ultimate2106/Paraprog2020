@@ -9,7 +9,7 @@ import assignment1.strangecounter.mylong.MyLongAtomic;
 import assignment1.strangecounter.mylong.MyLongAtomicModulo;
 
 /**
- * Hier befindet
+ * Hier befindet sich das Hauptprogramm
  * 
  * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
