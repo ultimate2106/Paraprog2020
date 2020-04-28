@@ -9,8 +9,8 @@ import java.util.function.LongBinaryOperator;
 public class MyLongAtomicModulo extends MyLongAtomic {
 
 	/**
-	 * Erhöht den Zählerstand um 1 und gibt den Zählerstand mod 16 zurück
-	 * @return Gibt den aktuellen Zählerstand zurück.
+	 * Erhöht den Zählerstand um 1.
+	 * @return Gibt den aktuellen Zählerstand mod 16 zurück.
 	 */
 	@Override
 	public long incrementAndGet() {
