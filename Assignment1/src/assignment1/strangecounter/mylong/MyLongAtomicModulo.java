@@ -9,9 +9,8 @@ import java.util.function.LongBinaryOperator;
 public class MyLongAtomicModulo extends MyLongAtomic {
 
 	/**
-	 * Merkt sich eine Anonyme Funktion, die (x+y)%16 rechnet, in der Variable lbo und übergibt 
-	 * der accumulateAndGet Methode von AtomicLong. 
-	 * @return Gibt den Wert zurück den accumulateAndGet zurückgibt.
+	 * Erhöht den Zählerstand um 1.
+	 * @return Gibt den aktuellen Zählerstand mod 16 zurück.
 	 */
 	@Override
 	public long incrementAndGet() {
