@@ -13,7 +13,7 @@ import java.util.Random;
 public class MatrixVectorUtils {
 	
 	/**
-	 * Diese Methode erzeugt eine Quadratische Matrix der Größe dim x dim
+	 * Erzeugt eine Quadratische Matrix der Größe dim x dim,
 	 * die mit zufälligen Zahlen gefüllt wird.
 	 * 
 	 * @param dim Größe der Matrix
@@ -38,7 +38,7 @@ public class MatrixVectorUtils {
 	}
 	
 	/**
-	 * Diese Methode erzeugt einen Vektor der Größe dim der mit
+	 * Erzeugt einen Vektor der Größe dim, der mit
 	 * zufälligen Zahlen gefüllt wird.
 	 * 
 	 * @param dim Größe des Vektors
@@ -57,13 +57,11 @@ public class MatrixVectorUtils {
 	}
 	
 	/**
-	 * Hier wird eine Reihe der Matrix mit dem Vektor Multipliziert.
-	 * Hierfür werden die einzelnen Zeilen der beiden Vektoren miteinander
-	 * Multipliziert und als Ergebnis auf eine Variable hinzu Addiert. 
+	 * Multipliziert zwei Vektoren zu einem Skalar.
 	 * 
 	 * @param vec1 Erster Vektor
 	 * @param vec2 Zweiter Vektor
-	 * @return Ergebnis der Vektoren
+	 * @return Ergebnis der Multiplikation
 	 */
 	public static double multVecVec(double[] vec1, double[] vec2) {
 		double result = 0;
