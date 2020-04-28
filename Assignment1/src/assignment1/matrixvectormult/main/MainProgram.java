@@ -5,29 +5,23 @@ import java.util.concurrent.ForkJoinPool;
 import assignment1.matrixvectormult.utils.MatrixVectorMultiplication;
 import assignment1.matrixvectormult.utils.MatrixVectorUtils;
 /**
- * Das MainProgram stellt verschiedene Methoden zu Verfügung um die Matrix Vektor Multiplikation zu testen.
+ * Stellt das Hauptprogramm zur Berechnung der Matrix Vector Multiplikation dar.
+ * 
  * @author User Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  *
  */
 public class MainProgram {
-	/**
-	 * Länge der Matrix, des Vektors und des Ergebnisvektors
-	 */
+
+	//Länge der Matrix, des Vektors und des Ergebnisvektors
+	
 	private static final int length = 1000;
-	/**
-	 * Zweidimensionales Array dass eine Matrix darstellen soll
-	 */
+
+	//Zweidimensionales Array dass eine Matrix darstellen soll
 	private static double[][] matrix;
-	/**
-	 * Eindimensionales Array dass einen Vektor darstellen soll
-	 */
+	
+	//Eindimensionales Array dass einen Vektor darstellen soll
 	private static double[] vector;
 	
-	/**
-	 * Main Methode der Matrix Vektor Multiplikation. Die die Arrays Matrix und Vector
-	 * intialisiert drei verschiedene ForkJoinPools und ruft drei mal die calc Methode auf. 
-	 * @param args Übergebene Argumente
-	 */
 	public static void main(String[] args) {
 		matrix = MatrixVectorUtils.getTestMatrix(length);
 		vector = MatrixVectorUtils.getTestVector(length);
@@ -42,10 +36,10 @@ public class MainProgram {
 	}
 	
 	/**
-	 * Diese Methode erstellt einen Ergebnisvektor und übergibt ihn zusammen mit
-	 * dem ForkJoinPool, der Matrix und dem Vector der doIt Methode  
+	 * Startet die Berechnung der Matrix Vektor Multiplikation.
+	 * 
 	 * @param pool   Der ForkJoinPool der für die Rechnung benutzt wird.
-	 * @param poolNr Nummer zur unterscheidung der Pools
+	 * @param poolNr Nummer zur unterscheidung der Pools (ID)
 	 */
 	private static void calc(ForkJoinPool pool, int poolNr) {
 		double[] result = new double[length];
@@ -54,8 +48,10 @@ public class MainProgram {
 		doIt(pool, matrix, vector, result);
 		//printResult(result);
 	}
+	
 	/**
-	 * Diese Methode gibt die Matrix den mit zu multiplizierenden Vektor und das Ergebnis auf der Konsole aus.
+	 * Gibt die Matrix, den Vektor und das Ergebnis der Multiplikation auf der Konsole aus.
+	 * 
 	 * @param result Das Ergebnis von MatrixVectorMultiplication
 	 */
 	private static void printResult(double[] result) 
@@ -85,10 +81,11 @@ public class MainProgram {
 	
 	
 	/**
-	 * Diese Methode berechnet sequentiell eine Matrix Vector Multiplikation,
-	 * um das Ergebnis von MatrixVectorMultiplication zu überprüfen
-	 * @param   result Das Ergebnis von MatrixVectorMultiplication
-	 * @return Gibt an ob das Ergebnis von MatrixVectorMultiplication richtig oder falsch ist 
+	 * Berechnet sequentiell eine Matrix Vector Multiplikation,
+	 * um es dann mit result zu überprüfen.
+	 * 
+	 * @param result Das Ergebnis von MatrixVectorMultiplication
+	 * @return Gibt an, ob das Ergebnis von MatrixVectorMultiplication richtig oder falsch ist 
 	 * 
 	 */
 	private static boolean checkResult(double[] result) 
@@ -111,7 +108,7 @@ public class MainProgram {
 	}
 	
 	/**
-	 * Diese Methode nutzt ForkJoinPool für die Multiplikation
+	 * Nutzt ForkJoinPool für die Multiplikation
 	 * einer Matrix mit einem Vektor.
 	 * 
 	 * @param pool Der ForkJoinPool zur Berechnung. 
@@ -119,7 +116,7 @@ public class MainProgram {
 	 * @param vector Der Vektor für die Multiplikation.
 	 * @param result Der Vektor in dem das Ergebnis gespeichert wird.
 	 */
-	public static void doIt(ForkJoinPool pool, final double[][] matrix, final double[]vector, final double[] result) {
+	private static void doIt(ForkJoinPool pool, final double[][] matrix, final double[]vector, final double[] result) {
 		MatrixVectorMultiplication task = new MatrixVectorMultiplication(matrix, vector, result, 0, matrix.length);
 		long startTime = System.nanoTime();
 		pool.invoke(task);

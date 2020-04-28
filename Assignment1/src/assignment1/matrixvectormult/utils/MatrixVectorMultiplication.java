@@ -3,8 +3,9 @@ package assignment1.matrixvectormult.utils;
 import java.util.concurrent.RecursiveAction;
 
 /**
- * Diese Klasse ist für die Aufteilung der Aufgaben zuständig und 
- * um dann die einzelnen Berechnungen zu starten.
+ * Diese Klasse bietet Methoden zur Berechnung einer
+ * Matrix x Vektor Multiplikation unter Verwendung
+ * der Divide and Conquer Methode. 
  *
  * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
  * 
@@ -27,13 +28,12 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 	private final int length;
 	
 	/**
-	 * Dieser Konstruktor inizialisiert die folgenden Variablen.
 	 * 
 	 * @param matrix Quadratische Matrix
 	 * @param vector Vektor
-	 * @param result Ergebnis der Multiplikation von Matrix und Vektor
-	 * @param startIndex Startwert der Berechnung
-	 * @param length Endwert der Berechnung
+	 * @param result Array zum Speichern des Ergebnisses der Multiplikation
+	 * @param startIndex Startindex der Berechnung
+	 * @param length Endindex der Berechnung
 	 */
 	public MatrixVectorMultiplication(final double[][] matrix, final double[] vector,
 			final double[] result, final int startIndex, final int length) {
@@ -45,9 +45,11 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 	}
 	
 	/**
-	 * Bei dieser Methode wird die Berechnung der Matrix mit dem Vektor aufgeteilt nach dem 
-	 * divide and conquer. Dafür wird die Arbeit auf die einzelnen Reihen der Matrix runtergebrochen
-	 * und mit dem Vektor in einer seperaten Methode Multipliziert.
+	 * Führt die Berechnung einer Matrix x Vektor Multiplikation
+	 * durch, indem entweder nach dem "Divide and Conquer" Prinzip
+	 * die Berechnung weiter runtergebrochen wird, oder, sollte
+	 * der Threashold bereits erreicht sein, die Berechnung der 
+	 * einzelnen Zeilen durchgeführt wird.
 	 */
 	@Override
 	protected void compute() {

@@ -29,7 +29,7 @@ public class StrangeCounter {
 	 * @param executorService Auswahlmöglichkeit der einzelnen Executor Services.
 	 * @param counter Objekt MyLong, MyLongAtomic oder MyLongAtomicModul
 	 */
-	private static void test(ExecutorService executorService,CounterInterface counter) 
+	private static void test(ExecutorService executorService, CounterInterface counter) 
 	{
 		CountDownLatch startLatch = new CountDownLatch(1);
 		CountDownLatch endLatch = new CountDownLatch(INCREMENTERS);
