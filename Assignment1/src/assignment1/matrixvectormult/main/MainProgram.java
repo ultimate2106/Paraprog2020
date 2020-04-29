@@ -29,9 +29,9 @@ public class MainProgram {
 		ForkJoinPool pool2 = new ForkJoinPool(3);
 		ForkJoinPool pool3 = new ForkJoinPool(7);
 		
-		calc(pool1, 1);
-		calc(pool2, 2);
-		calc(pool3, 3);
+		calc(pool1, 1, true);
+		calc(pool2, 2, true);
+		calc(pool3, 3, true);
 	}
 	
 	/**
@@ -40,12 +40,14 @@ public class MainProgram {
 	 * @param pool   Der ForkJoinPool der für die Rechnung benutzt wird.
 	 * @param poolNr Nummer zur unterscheidung der Pools (ID)
 	 */
-	private static void calc(ForkJoinPool pool, int poolNr) {
+	private static void calc(ForkJoinPool pool, int poolNr, boolean isTest) {
 		double[] result = new double[length];
 		
 		System.out.println("=============Pool " + poolNr + "=============");
 		doIt(pool, matrix, vector, result);
-		printResult(result);
+		
+		//Nur mit kleiner length Variable oder den Testwerten aufrufen!
+		printResult(result, isTest);
 	}
 	
 	/**
@@ -53,9 +55,16 @@ public class MainProgram {
 	 * 
 	 * @param result Das Ergebnis von MatrixVectorMultiplication
 	 */
-	private static void printResult(double[] result) 
+	private static void printResult(double[] result, boolean isTest) 
 	{
-		if(checkResult(result)) {
+		boolean isCorrect = false;
+		if(isTest) {
+			isCorrect = MatrixVectorUtils.checkTest(result, length);
+		} else {
+			isCorrect = checkResult(result);
+		}
+		
+		if(isCorrect) {
 			System.out.println("-----Matrix-----");
 			for(int i = 0; i < length; ++i) 
 			{

@@ -11,6 +11,7 @@ import java.util.Random;
  *
  */
 public class MatrixVectorUtils {
+	private static double testValue = 2;
 	
 	/**
 	 * Erzeugt eine Quadratische Matrix der Größe dim x dim,
@@ -20,20 +21,12 @@ public class MatrixVectorUtils {
 	 * @return Quadratische Matrix der Größe dim
 	 */
 	public static double[][] getTestMatrix(int dim) {
-		double[][] testMatrix = {
-				{1, 1, 1}, 
-				{2, 2, 2}, 
-				{3, 3, 3}
-				};
-		
-//		double[][] testMatrix = new double[dim][dim];
-//		Random rand = new Random();
-//		
-//		for(int i=0;i<dim;++i) {
-//			for(int j = 0; j < dim; ++j) {			
-//				testMatrix[i][j] = Math.round((rand.nextDouble()*10) * 100.0) / 100.0;
-//			}
-//		}
+		double[][] testMatrix = new double[dim][dim];
+		for(int i = 0; i < dim; ++i) {
+			for(int j = 0; j < dim; ++j) {
+				testMatrix[i][j] = i;
+			}
+		}
 		return testMatrix;
 	}
 	
@@ -45,14 +38,35 @@ public class MatrixVectorUtils {
 	 * @return Vektor der größe dim
 	 */
 	public static double[] getTestVector(int dim) {
-		double[] testVector = {3, 2, 1};
+		double[] testVector = new double[dim];
+		for(int i = 0; i < dim; ++i) {
+			testVector[i] = testValue;
+		}
 		
-//		Random rand=new Random();
-//		double[] testVector=new double[dim];
-//		for(int i = 0; i < dim; ++i) 
-//		{
-//			testVector[i]=Math.round((rand.nextDouble()*10) * 100.0) / 100.0;
-//		}
+		return testVector;
+	}
+	
+	public static double[][] getRandomMatrix(int dim) {
+		double[][] testMatrix = new double[dim][dim];
+		Random rand = new Random();
+		
+		for(int i=0;i<dim;++i) {
+			for(int j = 0; j < dim; ++j) {			
+				testMatrix[i][j] = Math.round((rand.nextDouble()*10) * 100.0) / 100.0;
+			}
+		}
+		
+		return testMatrix;
+	}
+	
+	public static double[] getRandomVector(int dim) {
+		Random rand=new Random();
+		double[] testVector=new double[dim];
+		for(int i = 0; i < dim; ++i) 
+		{
+			testVector[i]=Math.round((rand.nextDouble()*10) * 100.0) / 100.0;
+		}
+		
 		return testVector;
 	}
 	
@@ -71,5 +85,14 @@ public class MatrixVectorUtils {
 		}
 		
 		return result;
+	}
+	
+	public static boolean checkTest(double[] testResult, int dim) {
+		for(int i = 0; i < testResult.length; ++i) {
+			if(testResult[i] != (i*dim)*testValue)
+				return false;
+		}
+		
+		return true;
 	}
 }
