@@ -13,7 +13,7 @@ import assignment1.matrixvectormult.utils.MatrixVectorUtils;
 public class MainProgram {
 
 	//Länge der Matrix, des Vektors und des Ergebnisvektors
-	private static final int length = 1000;
+	private static final int length = 3;
 
 	//Zweidimensionales Array dass eine Matrix darstellen soll
 	private static double[][] matrix;
@@ -45,7 +45,7 @@ public class MainProgram {
 		
 		System.out.println("=============Pool " + poolNr + "=============");
 		doIt(pool, matrix, vector, result);
-		//printResult(result);
+		printResult(result);
 	}
 	
 	/**
