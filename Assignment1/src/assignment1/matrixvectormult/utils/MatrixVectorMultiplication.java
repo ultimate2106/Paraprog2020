@@ -53,10 +53,15 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 	 */
 	@Override
 	protected void compute() {
-		if((length - startIndex) > 1) {
-			int mid = (startIndex+length) / 2;		
-			invokeAll(new MatrixVectorMultiplication(matrix,vector,result,startIndex,mid),
-					 new MatrixVectorMultiplication(matrix,vector,result,mid,length));
+		if(length > 1) {
+			int end = startIndex+length;
+			int mid = (startIndex+end) / 2;
+			
+			int leftLength = length / 2;
+			int rightLength = length - leftLength;
+			
+			invokeAll(new MatrixVectorMultiplication(matrix,vector,result,startIndex,leftLength),
+					 new MatrixVectorMultiplication(matrix,vector,result,mid,rightLength));
 		}
 		else 
 		{
