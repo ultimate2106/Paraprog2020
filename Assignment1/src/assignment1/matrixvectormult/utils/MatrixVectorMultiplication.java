@@ -65,7 +65,9 @@ public class MatrixVectorMultiplication extends RecursiveAction {
 		}
 		else 
 		{
-			result[startIndex] = MatrixVectorUtils.multVecVec(matrix[startIndex], vector);
+			for(int i = 0; i < length; ++i) {
+				result[startIndex+i] = MatrixVectorUtils.multVecVec(matrix[startIndex+i], vector);
+			}
 		}
 	}
 }
