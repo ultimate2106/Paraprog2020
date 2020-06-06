@@ -1,6 +1,6 @@
 package achterbahn.thread;
 
-import achterbahn.monitor.Steuerung;
+import achterbahn.interfaces.Steuerung;
 
 public class Drehkreuz implements Runnable{
 
