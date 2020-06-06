@@ -16,9 +16,9 @@ public class Steuerung1 implements Steuerung{
 			System.out.println("Ein Passagier ist eingestiegen. Aktuelle Anzahl " + Passagiere);
 			
 			if(Passagiere >= 5) {
-				System.out.println("Alle Sitzplï¿½tze belegt. Drehkreuz wird geschlossen!");
+				System.out.println("Alle Sitzplätze belegt. Drehkreuz wird geschlossen!");
 			} else {
-				System.out.println("Noch sind Sitzplï¿½tze frei. Wagen wartet!");
+				System.out.println("Noch sind Sitzplätze frei. Wagen wartet!");
 			}
 			
 			Thread.sleep(1000);
@@ -29,7 +29,7 @@ public class Steuerung1 implements Steuerung{
 		}
 	}
 	
-	public synchronized void abfahrt(boolean wagen) {
+	public synchronized void abfahrt(boolean isWagen1) {
 		try {
 			while(Passagiere < 5) {
 				wait();	
@@ -50,7 +50,7 @@ public class Steuerung1 implements Steuerung{
 		}
 	}
 	
-	public synchronized void aussteigen(boolean wagen) {
+	public synchronized void aussteigen(boolean isWagen1) {
 		System.out.println("Fahrt zu Ende. Alles bitte aussteigen!");
 		
 		Passagiere = 0;
