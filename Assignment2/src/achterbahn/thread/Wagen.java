@@ -6,8 +6,10 @@ public class Wagen implements Runnable{
 	
 	private boolean isAchterbahnActive = true;
 	private Steuerung Steuerung;
+	private boolean wagen;
 	
-	public Wagen(Steuerung steuerung) {
+	public Wagen(Steuerung steuerung, boolean wagen) {
+		this.wagen = wagen;
 		Steuerung = steuerung;
 	}
 	
@@ -15,7 +17,7 @@ public class Wagen implements Runnable{
 	public void run() {
 		if(Steuerung != null) {
 			while(isAchterbahnActive) {
-				Steuerung.abfahrt();
+				Steuerung.abfahrt(wagen);
 			}
 		}
 	}
