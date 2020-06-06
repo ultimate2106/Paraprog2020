@@ -1,6 +1,8 @@
 package achterbahn.monitor;
 
-public class Steuerung {
+import achterbahn.interfaces.Steuerung;
+
+public class Steuerung1 implements Steuerung{
 	private int Passagiere = 0;
 	
 	public synchronized void passagier() {
@@ -48,7 +50,7 @@ public class Steuerung {
 		}
 	}
 	
-	private void aussteigen() {
+	public synchronized void aussteigen() {
 		System.out.println("Fahrt zu Ende. Alles bitte aussteigen!");
 		
 		Passagiere = 0;

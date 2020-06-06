@@ -1,13 +1,14 @@
 package main;
 
-import achterbahn.monitor.Steuerung;
+import achterbahn.interfaces.Steuerung;
+import achterbahn.monitor.Steuerung1;
 import achterbahn.thread.Drehkreuz;
 import achterbahn.thread.Wagen;
 
 public class MainProgram {
 
 	public static void main(String[] args) {
-		Steuerung steuerung = new Steuerung();
+		Steuerung steuerung = new Steuerung1();
 		Drehkreuz drehkreuz = new Drehkreuz(steuerung);
 		Wagen wagen = new Wagen(steuerung);
 		
