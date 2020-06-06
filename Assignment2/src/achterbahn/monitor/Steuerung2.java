@@ -17,7 +17,6 @@ public class Steuerung2 implements Steuerung {
                 wait();
             }
                
-
             if(java.lang.Math.random() < 0.5 ){           
                 ++w1Passagiere;
 			    notifyAll();
