@@ -9,8 +9,8 @@ public class Steuerung2 implements Steuerung {
     private boolean w2Vorne = false;
     private final int MaxPassagiere = 5;
 
-    // Als Konstruktor umsetzten?
-    public synchronized void init() {
+    public Steuerung2()
+    {
         if (java.lang.Math.random() < 0.5) {
             w1Vorne = true;
         } else {
