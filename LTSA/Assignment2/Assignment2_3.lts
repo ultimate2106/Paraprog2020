@@ -10,14 +10,14 @@ Wagen1 = (abfahrt -> aussteigen -> Wagen1).
 Wagen2 = (abfahrt -> aussteigen -> Wagen2).
 ||Wagen = (w1:Wagen1 || w2:Wagen2).
 
-Steuerung=Steuerung[0][0][False][False],
-Steuerung[w1:Passagiere][w2:Passagiere][w1Vorne:Boolean][w2Vorne:Boolean] = (
-	  when(!w1Vorne & !w2Vorne) wagenAnStart -> anderenAnstellen -> Steuerung[w1][w2][True][False]
-	| when(!w1Vorne & !w2Vorne) wagenAnStart -> anderenAnstellen -> Steuerung[w1][w2][False][True]
-	| when(((w1 < MaxPassagiere & w2 < MaxPassagiere) | (w1 < MaxPassagiere & w1Vorne)) & (w1Vorne | w2Vorne)) passagier -> Steuerung[w1+1][w2][w1Vorne][w2Vorne]
-	| when(((w1 < MaxPassagiere & w2 < MaxPassagiere) | (w2 < MaxPassagiere & w2Vorne)) & (w1Vorne | w2Vorne)) passagier -> Steuerung[w1][w2+1][w1Vorne][w2Vorne]
-	| when(w1 >= MaxPassagiere & w1Vorne) w1.abfahrt -> w2Vorfahren -> w1.aussteigen -> Steuerung[0][w2][False][True]
-	| when(w2 >= MaxPassagiere & w2Vorne) w2.abfahrt -> w1Vorfahren -> w2.aussteigen -> Steuerung[w1][0][True][False]
+Steuerung=Steuerung[0][0][False],
+Steuerung[w1:Passagiere][w2:Passagiere][w1Vorne:Boolean] = (
+	when((w1 < MaxPassagiere & w2 < MaxPassagiere) | (w1 < MaxPassagiere & w1Vorne)) passagier -> Steuerung[w1+1][w2][w1Vorne]
+	| when((w1 < MaxPassagiere & w2 < MaxPassagiere) | (w2 < MaxPassagiere & !w1Vorne)) passagier -> Steuerung[w1][w2+1][w1Vorne]
+	| when(w1 >= MaxPassagiere & w1Vorne) w1.abfahrt -> Steuerung[w1][w2][w1Vorne]
+	| when(w2 >= MaxPassagiere & !w1Vorne) w2.abfahrt -> Steuerung[w1][w2][w1Vorne]
+	| w1.aussteigen -> Steuerung[0][w2][False]
+	| w2.aussteigen -> Steuerung[w1][0][True]
 ).
 
 ||Achterbahn = (Drehkreuz || Wagen || Steuerung).
