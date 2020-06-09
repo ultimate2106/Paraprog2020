@@ -8,9 +8,7 @@ public class Steuerung2_NEW implements Steuerung {
 	private int w1Passagiere = 0;
 	private int w2Passagiere = 0;
 	
-	//TODO: Brauchen nur w1Vorne!
 	private boolean w1Vorne = false;
-	private boolean w2Vorne = false;
 	
 	public Steuerung2_NEW() {
 		double random = Math.random();
@@ -19,7 +17,6 @@ public class Steuerung2_NEW implements Steuerung {
 			w1Vorne = true;
 		} else {
 			System.out.println("Wagen2 steht vorne.");
-			w2Vorne = true;
 		}
 	}
 
@@ -27,7 +24,7 @@ public class Steuerung2_NEW implements Steuerung {
 	public synchronized void passagier() {
 		try {
 			while(!((w1Passagiere < MaxPassagiere && w2Passagiere < MaxPassagiere) || 
-					((w1Passagiere < MaxPassagiere && w1Vorne) || (w2Passagiere < MaxPassagiere && w2Vorne)))) {
+					((w1Passagiere < MaxPassagiere && w1Vorne) || (w2Passagiere < MaxPassagiere && !w1Vorne)))) {
 				wait();
 			}
 			
@@ -80,35 +77,29 @@ public class Steuerung2_NEW implements Steuerung {
 			e.printStackTrace();
 		}
 	}
-
-	//TODO: Nur EIN while!
-	//TODO: Das Fahren in den Wagen verschieben?
-	//TODO: aussteigen() vom Wagen aufrufen lassen -> notifyAll() nach aussteigen() verschieben
+	
 	@Override
 	public synchronized void abfahrt(boolean isWagen1) {
-		try {
+		
+		try {			
+			while(!((isWagen1 && (w1Passagiere >= MaxPassagiere) && w1Vorne) || 
+					(!isWagen1 && (w2Passagiere >= MaxPassagiere) && !w1Vorne))) {
+					       wait();
+					}
+			
 			if(isWagen1) {
-				while(!(w1Passagiere >= MaxPassagiere) || !(w1Vorne)) {
+				/*while(!(w1Passagiere >= MaxPassagiere) || !(w1Vorne)) {
 					wait();	
-				}
+				}*/
 				
 				System.out.println("Abfahrt Wagen1! :)");
 			} else {
-				while(!(w2Passagiere >= MaxPassagiere) || !(w2Vorne)) {
+				/*while(!(w2Passagiere >= MaxPassagiere) || w1Vorne) {
 					wait();	
-				}
+				}*/
 				
 				System.out.println("Abfahrt Wagen2! :)");
 			}
-			
-			for(int i = 0; i < 5; ++i) {
-				System.out.println(i+1);
-				Thread.sleep(1000);
-			}
-			
-			aussteigen(isWagen1);
-			
-			notifyAll();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -119,14 +110,13 @@ public class Steuerung2_NEW implements Steuerung {
 		if(isWagen1) {
 			System.out.println("Fahrt in Wagen1  ist zu Ende. Alles bitte aussteigen!");
             w1Vorne = false;
-            w2Vorne = true;
             w1Passagiere = 0;
 		} else {
 			System.out.println("Fahrt in Wagen2  ist zu Ende. Alles bitte aussteigen!");
             w1Vorne = true;
-            w2Vorne = false;
             w2Passagiere = 0;
 		}
+		notifyAll();
 	}
 
 }
