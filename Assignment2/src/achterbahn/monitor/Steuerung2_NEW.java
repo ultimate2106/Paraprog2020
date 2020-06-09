@@ -7,6 +7,8 @@ public class Steuerung2_NEW implements Steuerung {
 	private final int MaxPassagiere = 5;
 	private int w1Passagiere = 0;
 	private int w2Passagiere = 0;
+	
+	//TODO: Brauchen nur w1Vorne!
 	private boolean w1Vorne = false;
 	private boolean w2Vorne = false;
 	
@@ -24,19 +26,16 @@ public class Steuerung2_NEW implements Steuerung {
 	@Override
 	public synchronized void passagier() {
 		try {
+			while(!((w1Passagiere < MaxPassagiere && w2Passagiere < MaxPassagiere) || 
+					((w1Passagiere < MaxPassagiere && w1Vorne) || (w2Passagiere < MaxPassagiere && w2Vorne)))) {
+				wait();
+			}
+			
 			double random = Math.random();
 			
 			if(random < 0.5 && w1Passagiere < MaxPassagiere) {
-				while(!((w1Passagiere < MaxPassagiere && w2Passagiere < MaxPassagiere) || (w1Passagiere < MaxPassagiere && w1Vorne))) {
-					wait();
-				}
-				
 				incrementPassagiereW1();
 			} else if(w2Passagiere < MaxPassagiere){
-				while(!((w1Passagiere < MaxPassagiere && w2Passagiere < MaxPassagiere) || (w2Passagiere < MaxPassagiere && w2Vorne))) {
-					wait();
-				}
-				
 				incrementPassagiereW2();
 			}
 			
@@ -78,6 +77,9 @@ public class Steuerung2_NEW implements Steuerung {
 		}
 	}
 
+	//TODO: Nur EIN while!
+	//TODO: Das Fahren in den Wagen verschieben?
+	//TODO: aussteigen() vom Wagen aufrufen lassen -> notifyAll() nach aussteigen() verschieben
 	@Override
 	public synchronized void abfahrt(boolean isWagen1) {
 		try {
