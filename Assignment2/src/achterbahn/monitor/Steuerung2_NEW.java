@@ -31,17 +31,21 @@ public class Steuerung2_NEW implements Steuerung {
 				wait();
 			}
 			
-			double random = Math.random();
-			
-			if(random < 0.5 && w1Passagiere < MaxPassagiere) {
-				incrementPassagiereW1();
-			} else if(w2Passagiere < MaxPassagiere){
-				incrementPassagiereW2();
-			}
+			randomizedEinstieg();
 			
 			notifyAll();
 		} catch (InterruptedException e) {
 			// TODO: handle exception
+		}
+	}
+	
+	private void randomizedEinstieg() {
+		double random = Math.random();
+		
+		if(random < 0.5 && w1Passagiere < MaxPassagiere) {
+			incrementPassagiereW1();
+		} else if(w2Passagiere < MaxPassagiere){
+			incrementPassagiereW2();
 		}
 	}
 	
