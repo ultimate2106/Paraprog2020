@@ -1,0 +1,8 @@
+const M=5
+
+Drehkreuz=(passagier -> Drehkreuz).
+Wagen=(abfahrt -> aussteigen -> Wagen).
+Steuerung=Steuerung[0],
+Steuerung[i:0..M]=(when (i < M) passagier -> Steuerung[i+1] 
+				   | when (i == M) abfahrt -> aussteigen ->  Steuerung[0]).
+||Achterbahn=(Drehkreuz || Wagen || Steuerung).

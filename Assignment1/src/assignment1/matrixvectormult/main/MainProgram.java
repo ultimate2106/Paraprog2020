@@ -59,7 +59,7 @@ public class MainProgram {
 	{
 		boolean isCorrect = false;
 		if(isTest) {
-			isCorrect = MatrixVectorUtils.checkTest(result);
+			isCorrect = MatrixVectorUtils.checkTest(result, length);
 		} else {
 			isCorrect = checkResult(result);
 		}
