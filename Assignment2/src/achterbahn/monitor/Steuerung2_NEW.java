@@ -39,10 +39,18 @@ public class Steuerung2_NEW implements Steuerung {
 	private void randomizedEinstieg() {
 		double random = Math.random();
 		
-		if(random < 0.5 && w1Passagiere < MaxPassagiere) {
-			incrementPassagiereW1();
-		} else if(w2Passagiere < MaxPassagiere){
-			incrementPassagiereW2();
+		if(random < 0.5) {
+			if(w1Passagiere < MaxPassagiere) {
+				incrementPassagiereW1();
+			} else {
+				incrementPassagiereW2();
+			}
+		} else {
+			if(w2Passagiere < MaxPassagiere) {
+				incrementPassagiereW2();
+			} else {
+				incrementPassagiereW1();
+			}
 		}
 	}
 	
