@@ -32,19 +32,11 @@ public class Steuerung1 implements Steuerung{
 	
 	public synchronized void abfahrt(boolean isWagen1) {
 		try {
-			while(Passagiere < 5) {
+			while(Passagiere < 5 && !isDriving) {
 				wait();	
 			}
+			isDriving = true;
 			System.out.println("Abfahrt! :)");
-			
-			for(int i = 0; i < 5; ++i) {
-				System.out.println("Fahren... " + (i+1));
-				Thread.sleep(1000);
-			}
-			
-			aussteigen(true);
-			
-			notifyAll();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -52,7 +44,8 @@ public class Steuerung1 implements Steuerung{
 	
 	public synchronized void aussteigen(boolean isWagen1) {
 		System.out.println("Fahrt zu Ende. Alles bitte aussteigen!");
-		
 		Passagiere = 0;
+		notifyAll();
+		isDriving = false;
 	}
 }

@@ -15,15 +15,15 @@ public class MainProgram {
 		Drehkreuz drehkreuz = new Drehkreuz(steuerung);
 		
 		Wagen wagen = new Wagen(steuerung, true);
-		Wagen wagen2 = new Wagen(steuerung, false);
+		//Wagen wagen2 = new Wagen(steuerung, false);
 
 		Thread wagenThread = new Thread(wagen);
-		Thread wagen2Thread = new Thread(wagen2);
+		//Thread wagen2Thread = new Thread(wagen2);
 		
 		Thread drehkreuzThread = new Thread(drehkreuz);
 		
 		wagenThread.start();
-		wagen2Thread.start();
+		//wagen2Thread.start();
 		
 		drehkreuzThread.start();
 	}
