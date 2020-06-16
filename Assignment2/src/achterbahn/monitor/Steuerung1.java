@@ -4,6 +4,7 @@ import achterbahn.interfaces.Steuerung;
 
 public class Steuerung1 implements Steuerung{
 	private int Passagiere = 0;
+	private boolean isDriving = false;
 	
 	public synchronized void passagier() {
 		try {
@@ -34,11 +35,10 @@ public class Steuerung1 implements Steuerung{
 			while(Passagiere < 5) {
 				wait();	
 			}
-			
 			System.out.println("Abfahrt! :)");
 			
 			for(int i = 0; i < 5; ++i) {
-				System.out.println(i+1);
+				System.out.println("Fahren... " + (i+1));
 				Thread.sleep(1000);
 			}
 			

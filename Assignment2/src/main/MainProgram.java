@@ -8,9 +8,9 @@ import achterbahn.thread.Wagen;
 public class MainProgram {
 
 	public static void main(String[] args) {
-		//Steuerung steuerung = new Steuerung1();
+		Steuerung steuerung = new Steuerung1();
 		//Steuerung steuerung = new Steuerung2();
-		Steuerung steuerung = new Steuerung2_NEW();
+		//Steuerung steuerung = new Steuerung2_NEW();
 		
 		Drehkreuz drehkreuz = new Drehkreuz(steuerung);
 		
