@@ -30,7 +30,7 @@ public class Steuerung1 implements Steuerung{
 		}
 	}
 	
-	public synchronized void abfahrt(boolean isWagen1) {
+	public synchronized void abfahrt() {
 		try {
 			while(Passagiere < 5 && !isDriving) {
 				wait();	
@@ -42,7 +42,7 @@ public class Steuerung1 implements Steuerung{
 		}
 	}
 	
-	public synchronized void aussteigen(boolean isWagen1) {
+	public synchronized void aussteigen() {
 		System.out.println("Fahrt zu Ende. Alles bitte aussteigen!");
 		Passagiere = 0;
 		notifyAll();

@@ -60,16 +60,16 @@ public class Steuerung2 implements Steuerung {
     }
 
     @Override
-    public synchronized void abfahrt(boolean wagen) {
-            if (wagen) {
-                abfahrt(wagen, w1Passagiere, w1Vorne);
+    public synchronized void abfahrt() {
+            if (Thread.currentThread().getName()=="Wagen1") {
+                abfahrt(w1Passagiere, w1Vorne);
             } else {
-                abfahrt(wagen, w2Passagiere, w2Vorne);
+                abfahrt(w2Passagiere, w2Vorne);
             }
             notifyAll();
     }
 
-    public synchronized void abfahrt(boolean wagen, int passagiere, boolean vorne) {
+    public synchronized void abfahrt(int passagiere, boolean vorne) {
         while (!(passagiere >= MaxPassagiere & vorne)) {
             try {
                 wait();
@@ -89,12 +89,12 @@ public class Steuerung2 implements Steuerung {
             }
 		}
 
-        aussteigen(wagen);
+        aussteigen();
     }
 
     @Override
-    public synchronized void aussteigen(boolean wagen) {
-        if(wagen)
+    public synchronized void aussteigen() {
+        if(Thread.currentThread().getName()=="Wagen1")
         {
             System.out.println("Fahrt in Wagen 1  ist zu Ende. Alles bitte aussteigen!");
             w1Vorne = false;
