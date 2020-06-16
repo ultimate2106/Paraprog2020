@@ -1,8 +1,14 @@
 const M=5
 
+const True = 1
+const False = 0
+range Boolean = False..True
+
+
 Drehkreuz=(passagier -> Drehkreuz).
 Wagen=(abfahrt -> aussteigen -> Wagen).
-Steuerung=Steuerung[0],
-Steuerung[i:0..M]=(when (i < M) passagier -> Steuerung[i+1] 
-				   | when (i == M) abfahrt -> aussteigen ->  Steuerung[0]).
+Steuerung=Steuerung[0][False],
+Steuerung[i:0..M][isDriving:Boolean]=(when (i < M) passagier -> Steuerung[i+1][isDriving] 
+				   | when (i == M & !isDriving) abfahrt -> Steuerung[i][True]
+				   | aussteigen -> Steuerung[0][False]).
 ||Achterbahn=(Drehkreuz || Wagen || Steuerung).
