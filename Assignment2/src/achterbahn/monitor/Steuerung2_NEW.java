@@ -89,12 +89,12 @@ public class Steuerung2_NEW implements Steuerung {
 	public synchronized void abfahrt() {
 		
 		try {			
-			while(!((Thread.currentThread().getName()=="Wagen1" && (w1Passagiere >= MaxPassagiere) && w1Vorne) || 
-					(Thread.currentThread().getName()=="Wagen2" && (w2Passagiere >= MaxPassagiere) && !w1Vorne))) {
+			while(!((Thread.currentThread().getName().equals("Wagen1") && (w1Passagiere >= MaxPassagiere) && w1Vorne) || 
+					(Thread.currentThread().getName().equals("Wagen2") && (w2Passagiere >= MaxPassagiere) && !w1Vorne))) {
 					       wait();
 					}
 			
-			if(Thread.currentThread().getName()=="Wagen1") {
+			if(Thread.currentThread().getName().equals("Wagen1")) {
 				/*while(!(w1Passagiere >= MaxPassagiere) || !(w1Vorne)) {
 					wait();	
 				}*/
@@ -113,7 +113,7 @@ public class Steuerung2_NEW implements Steuerung {
 	}
 
 	public synchronized void aussteigen() {
-		if(Thread.currentThread().getName()=="Wagen1") {
+		if(Thread.currentThread().getName().equals("Wagen1")) {
 			System.out.println("Fahrt in Wagen1  ist zu Ende. Alles bitte aussteigen!");
             w1Vorne = false;
             w1Passagiere = 0;
