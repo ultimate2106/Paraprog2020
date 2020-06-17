@@ -106,6 +106,7 @@ public class Steuerung2_NEW implements Steuerung {
 				
 				System.out.println("Abfahrt Wagen2! :)");
 			}
+			notifyAll();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
