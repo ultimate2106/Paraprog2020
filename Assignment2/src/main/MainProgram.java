@@ -17,10 +17,8 @@ public class MainProgram {
 		Wagen wagen = new Wagen(steuerung);
 		Wagen wagen2 = new Wagen(steuerung);
 
-		Thread wagenThread = new Thread(wagen);
-		wagenThread.setName("Wagen1");
-		Thread wagen2Thread = new Thread(wagen2);
-		wagen2Thread.setName("Wagen2");
+		Thread wagenThread = new Thread(wagen,"Wagen1");
+		Thread wagen2Thread = new Thread(wagen2, "Wagen2");
 		
 		Thread drehkreuzThread = new Thread(drehkreuz);
 		
