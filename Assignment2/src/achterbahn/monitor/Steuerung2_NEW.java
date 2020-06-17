@@ -4,7 +4,7 @@ import achterbahn.interfaces.Steuerung;
 
 public class Steuerung2_NEW implements Steuerung {
 	
-	private final int MaxPassagiere = 5;
+	private final int MaxPassagiere = 10;
 	private int w1Passagiere = 0;
 	private int w2Passagiere = 0;
 	
@@ -23,8 +23,7 @@ public class Steuerung2_NEW implements Steuerung {
 	@Override
 	public synchronized void passagier() {
 		try {
-			while(!((w1Passagiere < MaxPassagiere && w2Passagiere < MaxPassagiere) || 
-					((w1Passagiere < MaxPassagiere && w1Vorne) || (w2Passagiere < MaxPassagiere && !w1Vorne)))) {
+			while(!(w1Passagiere < MaxPassagiere || w2Passagiere < MaxPassagiere)) {
 				wait();
 			}
 			
