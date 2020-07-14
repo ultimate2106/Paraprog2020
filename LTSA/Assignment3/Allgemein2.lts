@@ -1,0 +1,16 @@
+const TRUE = 1
+const FALSE = 0
+range Boolean = FALSE..TRUE
+
+Node = (
+	isInitNode -> Node[TRUE][TRUE][2][0] |
+	isNotInitNode -> Node[FALSE][FALSE][2][0]
+),
+Node[initiator:Boolean][isSleeping:Boolean][neighbours:0..10][wakeupCount:0..10] = (
+	wakeup -> Node[initiator][TRUE] [neighbours][wakeupCount+1] |
+	when(!isSleeping) wakeupOut -> wakeup -> Node[initiator][TRUE] [neighbours][wakeupCount] |
+	echo -> Node[initiator][TRUE] [neighbours][wakeupCount+1] |
+	when(wakeupCount == neighbours) echoOut -> echo -> Node[initiator][TRUE] [neighbours][wakeupCount]
+).
+
+||Nodes = (a:Node || b:Node) / {wakeup/{a,b}.wakeup, echo/{a,b}.echo}.
