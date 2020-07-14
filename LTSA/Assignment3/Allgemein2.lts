@@ -3,14 +3,20 @@ const FALSE = 0
 range Boolean = FALSE..TRUE
 
 Node = (
-	isInitNode -> Node[TRUE][TRUE][2][0] |
-	isNotInitNode -> Node[FALSE][FALSE][2][0]
+	isInitNode -> Node[TRUE][FALSE][FALSE][1][0] |
+	isNotInitNode -> Node[FALSE][TRUE][FALSE][1][0]
 ),
-Node[initiator:Boolean][isSleeping:Boolean][neighbours:0..10][wakeupCount:0..10] = (
-	wakeup -> Node[initiator][TRUE] [neighbours][wakeupCount+1] |
-	when(!isSleeping) wakeupOut -> wakeup -> Node[initiator][TRUE] [neighbours][wakeupCount] |
-	echo -> Node[initiator][TRUE] [neighbours][wakeupCount+1] |
-	when(wakeupCount == neighbours) echoOut -> echo -> Node[initiator][TRUE] [neighbours][wakeupCount]
+Node[initiator:Boolean][isSleeping:Boolean][sendWakeups:Boolean][neighbours:0..10][wakeupCount:0..10] = (
+	wakeup -> Node[initiator][FALSE][sendWakeups][neighbours][wakeupCount+1] |
+	when(!isSleeping & !sendWakeups) wakeupOut -> Node[initiator][isSleeping][TRUE][neighbours][wakeupCount] |
+	echo -> Node[initiator][isSleeping][neighbours][sendWakeups][wakeupCount+1] |
+	when(wakeupCount == neighbours) echoOut -> Node[initiator][TRUE][sendWakeups][neighbours][wakeupCount]
+).
+WakeupEcho = (
+	a.wakeupOut -> b.wakeup -> WakeupEcho |
+	b.wakeupOut -> a.wakeup -> WakeupEcho |
+	a.echoOut -> b.echo -> WakeupEcho |
+	b.echoOut -> a.echo -> WakeupEcho
 ).
 
-||Nodes = (a:Node || b:Node) / {wakeup/{a,b}.wakeup, echo/{a,b}.echo}.
+||Nodes = (a:Node || b:Node || WakeupEcho).
