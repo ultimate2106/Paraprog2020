@@ -25,7 +25,6 @@ public class Wagen implements Runnable{
 						e.printStackTrace();
 					}
 				}
-				
 				Steuerung.aussteigen();
 			}
 		}
