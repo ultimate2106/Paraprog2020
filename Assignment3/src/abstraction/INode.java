@@ -4,7 +4,7 @@ package abstraction;
  * This interface defines the methods of each node participating in the echo
  * algorithm. These methods can be called by the neighbours of a node.
  */
-public interface Node {
+public interface INode {
 
 	/**
 	 * Greetings from a neighbour. Before starting the echo algorithm this message
@@ -18,14 +18,14 @@ public interface Node {
 	 * 
 	 * @param neighbour
 	 */
-	public void hello(Node neighbour);
+	public void hello(INode neighbour);
 
 	/**
 	 * Incoming "wakeup" message from a neighbour.
 	 * 
 	 * @param neighbour
 	 */
-	public void wakeup(Node neighbour);
+	public void wakeup(INode neighbour);
 
 	/**
 	 * Incoming "echo" message from a neighbour. The neighbour can also send some
@@ -36,6 +36,6 @@ public interface Node {
 	 * @param neighbour
 	 * @param data
 	 */
-	public void echo(Node neighbour, Object data);
+	public void echo(INode neighbour, Object data);
 
 }
