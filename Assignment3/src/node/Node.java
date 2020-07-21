@@ -12,7 +12,9 @@ public class Node extends NodeAbstract{
 	
 	public Node(String name, boolean initiator) {
 		super(name, initiator);
-		if(initiator) isAwake = true;
+		if(initiator) {
+			isAwake = true;
+		}
 	}
 
 	@Override
@@ -45,9 +47,8 @@ public class Node extends NodeAbstract{
 		}
 	}
 
-	private void printTree()
-	{
-		
+	private void printTree() {
+		System.out.println("Done!");
 	}
 
 	@Override
@@ -55,13 +56,13 @@ public class Node extends NodeAbstract{
 		while(true) {
 			if(this.isAwake) {
 				if(wakeupCounter == neighbours.size()) {
-					wokeupBy.echo(this, null);
-					this.isAwake = false;
 					if(initiator) {
-
+						printTree();
+					} else {
+						wokeupBy.echo(this, null);
+						this.isAwake = false;
 					}
-				} 
-				else {
+				} else {
 					if(!sentWakeups) {
 						for(INode node : neighbours) {
 							node.wakeup(this);
@@ -70,8 +71,6 @@ public class Node extends NodeAbstract{
 					}
 				}
 			}
-
-			
 		}
 	}
 
