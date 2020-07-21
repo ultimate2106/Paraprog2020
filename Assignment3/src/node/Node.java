@@ -1,5 +1,7 @@
 package node;
 
+import java.util.concurrent.CountDownLatch;
+
 import abstraction.INode;
 import abstraction.NodeAbstract;
 
@@ -10,8 +12,14 @@ public class Node extends NodeAbstract{
 	private INode wokeupBy;
 	private boolean sentWakeups = false;
 	
-	public Node(String name, boolean initiator) {
+	private CountDownLatch rdyForEchoLatch;
+	
+	//Debug
+	private boolean showPrint = true;
+	
+	public Node(String name, boolean initiator, CountDownLatch rdyLatch) {
 		super(name, initiator);
+		rdyForEchoLatch = rdyLatch;
 		if(initiator) {
 			isAwake = true;
 		}
@@ -24,17 +32,22 @@ public class Node extends NodeAbstract{
 
 	@Override
 	public synchronized void wakeup(INode neighbour) {
+		System.out.println(name + " got wakeup by " + neighbour);
 		// TODO Auto-generated method stub
 		if(!this.isAwake) {
 			wokeupBy = neighbour;
 			this.isAwake = true;
 		}
+		
+		showPrint = true;
+		
 		++this.wakeupCounter;
 	}
 
 	@Override
 	public synchronized void echo(INode neighbour, Object data) {
-		// TODO Auto-generated method stub
+		System.out.println(name + " got echo by " + neighbour);
+		
 		++this.wakeupCounter;
 	}
 
@@ -49,28 +62,41 @@ public class Node extends NodeAbstract{
 
 	private void printTree() {
 		System.out.println("Done!");
+		System.out.println();
 	}
 
 	@Override
 	public void run() {
-		while(true) {
-			if(this.isAwake) {
-				if(wakeupCounter == neighbours.size()) {
-					if(initiator) {
-						printTree();
-					} else {
-						wokeupBy.echo(this, null);
-						this.isAwake = false;
-					}
-				} else {
-					if(!sentWakeups) {
-						for(INode node : neighbours) {
-							node.wakeup(this);
+		try {
+			rdyForEchoLatch.await();
+			
+			while(true) {
+				if(this.isAwake) {					
+					if(wakeupCounter == neighbours.size()) {
+						wakeupCounter = 0;
+						sentWakeups = false;
+						
+						if(initiator) {
+							printTree();
+							Thread.sleep(1000);
+						} else {
+							this.isAwake = false;
+							wokeupBy.echo(this, null);
 						}
-						sentWakeups = true;
+					} else {
+						if(!sentWakeups) {
+							for(INode node : neighbours) {
+								if(node != wokeupBy) {
+									node.wakeup(this);
+								}
+							}
+							sentWakeups = true;
+						}
 					}
 				}
 			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
