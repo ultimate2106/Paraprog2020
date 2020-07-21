@@ -1,4 +1,4 @@
-package Node;
+package abstraction;
 
 /**
  * This interface defines the methods of each node participating in the echo
