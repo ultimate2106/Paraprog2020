@@ -60,7 +60,7 @@ public class Node extends NodeAbstract{
 		}
 	}
 
-	private void printTree() {
+	private void printTree() {	
 		System.out.println("Done!");
 		System.out.println();
 	}
@@ -71,11 +71,10 @@ public class Node extends NodeAbstract{
 			rdyForEchoLatch.await();
 			
 			while(true) {
-				if(this.isAwake) {					
+				if(this.isAwake) {							
 					if(wakeupCounter == neighbours.size()) {
 						wakeupCounter = 0;
 						sentWakeups = false;
-						
 						if(initiator) {
 							printTree();
 							Thread.sleep(1000);
@@ -94,6 +93,7 @@ public class Node extends NodeAbstract{
 						}
 					}
 				}
+				Thread.sleep(1000);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
