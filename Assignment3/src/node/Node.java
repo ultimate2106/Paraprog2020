@@ -81,7 +81,6 @@ public class Node extends NodeAbstract{
 						System.out.println(wakeupCounter);
 					}
 					if(wakeupCounter == neighbours.size()) {
-						System.out.println(this);
 						wakeupCounter = 0;
 						sentWakeups = false;
 						if(initiator) {
