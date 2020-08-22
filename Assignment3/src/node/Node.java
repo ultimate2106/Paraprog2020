@@ -76,10 +76,6 @@ public class Node extends NodeAbstract{
 			while(threadIsRunning) {
 				if(this.isAwake) {	
 					
-					if(initiator && sentWakeups && wakeupCounter > 0) 
-					{
-						System.out.println(wakeupCounter);
-					}
 					if(wakeupCounter == neighbours.size()) {
 						wakeupCounter = 0;
 						sentWakeups = false;
