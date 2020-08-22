@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import node.Node;
 
@@ -19,7 +20,7 @@ public class Start {
 				
 				String[] nodeAndNeighbours = args[i].split(",");
 				keys[i] = nodeAndNeighbours[0];
-				System.out.println(keys[i]);
+				
 				boolean isInit = false;
 				
 				if(i == 0) {
@@ -29,6 +30,7 @@ public class Start {
 				nodeMap.put(keys[i], new Node(keys[i], isInit, rdyForEchoLetch));
 				
 				neighboursKeys[i] = new String[nodeAndNeighbours.length-1];
+				
 				for(int j = 0; j < nodeAndNeighbours.length-1; ++j) {
 					neighboursKeys[i][j] = nodeAndNeighbours[j+1];
 				}
@@ -47,14 +49,22 @@ public class Start {
 			//nodes[0].setupNeighbours(nodes[1], nodes[2]);
 			//nodes[1].setupNeighbours(nodes[3], nodes[4]);
 		
-			ExecutorService exec = Executors.newFixedThreadPool(5);
-		
+			ExecutorService exec = Executors.newFixedThreadPool(10);
+			//ExecutorService exec = Executors.newCachedThreadPool();
 			for(int i = 0; i < keys.length; ++i) {
 				exec.submit(nodeMap.get(keys[i]));
-			}
-			exec.shutdown();
-			System.out.println("Main sagt Tschüss");
+			}		
 			rdyForEchoLetch.countDown();
+			
+			exec.shutdown();
+			try {
+				while (!exec.awaitTermination(5, TimeUnit.SECONDS)) {
+					
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else {
 			System.out.println("Usage: Must specify at least one argument");
 		}

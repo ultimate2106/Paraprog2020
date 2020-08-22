@@ -8,6 +8,7 @@ import abstraction.NodeAbstract;
 public class Node extends NodeAbstract{
 
 	private boolean isAwake = false;
+	private boolean threadIsRunning = true;
 	private int wakeupCounter = 0;
 	private INode wokeupBy;
 	private boolean sentWakeups = false;
@@ -16,7 +17,7 @@ public class Node extends NodeAbstract{
 	
 	//Debug
 	private boolean showPrint = true;
-	
+
 	public Node(String name, boolean initiator, CountDownLatch rdyLatch) {
 		super(name, initiator);
 		rdyForEchoLatch = rdyLatch;
@@ -28,6 +29,7 @@ public class Node extends NodeAbstract{
 	@Override
 	public void hello(INode neighbour) {
 		this.neighbours.add(neighbour);
+		//System.out.println(neighbour + " says hello to " + this);
 	}
 
 	@Override
@@ -56,6 +58,7 @@ public class Node extends NodeAbstract{
 		// TODO Auto-generated method stub
 		for(INode node : neighbours) {
 			this.neighbours.add(node);
+			//System.out.println(node + " is a neighbour of " + this);
 			node.hello(this);
 		}
 	}
@@ -70,30 +73,40 @@ public class Node extends NodeAbstract{
 		try {
 			rdyForEchoLatch.await();
 			
-			while(true) {
-				if(this.isAwake) {							
+			while(threadIsRunning) {
+				if(this.isAwake) {	
+					
+					if(initiator && sentWakeups && wakeupCounter > 0) 
+					{
+						System.out.println(wakeupCounter);
+					}
 					if(wakeupCounter == neighbours.size()) {
+						System.out.println(this);
 						wakeupCounter = 0;
 						sentWakeups = false;
 						if(initiator) {
-							printTree();
-							Thread.sleep(1000);
+							printTree();						
 						} else {
-							this.isAwake = false;
+							this.isAwake = false;						
 							wokeupBy.echo(this, null);
 						}
+						threadIsRunning = false;
 					} else {
-						if(!sentWakeups) {
+						if(!sentWakeups) {						
 							for(INode node : neighbours) {
 								if(node != wokeupBy) {
 									node.wakeup(this);
 								}
 							}
 							sentWakeups = true;
+						} else {
+							yield();
 						}
-					}
+					} 
+				} else {
+					yield();
 				}
-				Thread.sleep(1000);
+				//sleep(1);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
