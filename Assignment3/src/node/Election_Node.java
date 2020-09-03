@@ -11,6 +11,7 @@ public class Election_Node extends Election_NodeAbstract{
 	private boolean sentRequest = false;
 	
 	private int wakeupCounter = 0;
+	private int numberOfNeighboursKnownFromInitiator = 1;
 	
 	private Election_INode wokeupBy;
 	private Election_INode identificationNode;
@@ -60,6 +61,7 @@ public class Election_Node extends Election_NodeAbstract{
 			electionData = null;
 		} else if(identificationNode.ID() == identification.ID()) {
 			++wakeupCounter;
+			++numberOfNeighboursKnownFromInitiator;
 		}	
 	}
 
@@ -114,7 +116,7 @@ public class Election_Node extends Election_NodeAbstract{
 						} else {
 							isAwake = false;
 							if(electionData == null) {
-								wokeupBy.echo(this, new ElectionData(identificationNode,neighbours.size()-1));
+								wokeupBy.echo(this, new ElectionData(identificationNode,neighbours.size()-numberOfNeighboursKnownFromInitiator));
 							} else {
 								electionData.add(neighbours.size());
 								wokeupBy.echo(this, electionData);
