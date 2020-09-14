@@ -1,5 +1,7 @@
 package implementation;
 
+import java.util.concurrent.CountDownLatch;
+
 import abstraction.Node;
 
 public class NodeFactory {
@@ -11,15 +13,15 @@ public class NodeFactory {
 		ElectionNode
 	}
 	
-	public static Node GetNode(NodeType type, String name, boolean isInitiator) {
+	public static Node GetNode(NodeType type, String name, boolean isInitiator, CountDownLatch startLatch) {
 		switch(type) {
 		case SimpleNode:
 			if(!isInitiatorDeclared) {
 				isInitiatorDeclared = isInitiator;
-				return new SimpleNode(name, isInitiator);
+				return new SimpleNode(name, isInitiator, startLatch);
 			}
 			
-			return new SimpleNode(name, false);
+			return new SimpleNode(name, false, startLatch);
 		case ElectionNode:
 		default:
 			return null;

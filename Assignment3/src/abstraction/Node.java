@@ -1,5 +1,7 @@
 package abstraction;
 
+import java.util.concurrent.CountDownLatch;
+
 import output.InternalConnectionData;
 
 public abstract class Node extends NodeAbstract {
@@ -21,12 +23,14 @@ public abstract class Node extends NodeAbstract {
 	
 	protected int messageCount = 0;
 	
+	private CountDownLatch startLatch;
 	
 	// -------------------------------------------------------------------------------------------------------------
 	
 	
-	public Node(String name, boolean initiator) {
+	public Node(String name, boolean initiator, CountDownLatch startLatch) {
 		super(name, initiator);
+		this.startLatch = startLatch;
 	}
 
 	// Setup methods
@@ -50,6 +54,17 @@ public abstract class Node extends NodeAbstract {
 	// ----------------------------------------------------------------------------------
 	@Override
 	public void run() {
+		if(initiator) {
+			System.out.println(name + " is initiator");
+			currentState = NodeState.SendMessages;
+		}
+		
+		try {
+			startLatch.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		while(isRunning) {
 			switch(currentState) {
 			case Idle:
@@ -60,7 +75,9 @@ public abstract class Node extends NodeAbstract {
 				break;
 			case WaitAnswers:
 				if(messageCount >= neighbours.size()) {
-					SendEcho();
+					if(!initiator) {
+						SendEcho();
+					}
 					Finish();
 				}
 				break;

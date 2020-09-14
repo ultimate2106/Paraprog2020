@@ -1,18 +1,22 @@
 package implementation;
+import java.util.concurrent.CountDownLatch;
+
 import abstraction.INode;
 import abstraction.Node;
 import output.InternalConnectionData;
 
 public class SimpleNode extends Node {
 
-	public SimpleNode(String name, boolean initiator) {
-		super(name, initiator);
+	public SimpleNode(String name, boolean initiator, CountDownLatch startLatch) {
+		super(name, initiator, startLatch);
 	}
 	
 	//Monitor methods (synch)
 	// ----------------------------------------------------------------------------------
 	@Override
 	public synchronized void wakeup(INode neighbour) {
+		System.out.println(name + " got wakeup from " + neighbour.toString());
+		
 		++messageCount;
 		
 		if(currentState.equals(NodeState.Idle)) {
@@ -23,8 +27,11 @@ public class SimpleNode extends Node {
 
 	@Override
 	public synchronized void echo(INode neighbour, Object data) {
+		System.out.println(name + " got echo from " + neighbour.toString());
+		
 		++messageCount;
 		
+		internalConnectionData.AddConnection(name + "->" + neighbour.toString());
 		internalConnectionData.AddConnections((InternalConnectionData)data);
 	}
 
@@ -47,6 +54,12 @@ public class SimpleNode extends Node {
 	
 	@Override
 	protected void Finish() {
+		System.out.println(name + " is finished :)");
+		
+		if(initiator) {
+			internalConnectionData.PrintTree();
+		}
+		
 		Shutdown();
 	}
 }
