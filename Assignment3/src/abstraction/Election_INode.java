@@ -26,7 +26,7 @@ public interface Election_INode {
 	 * @param neighbour
 	 * @param identification
 	 */
-	public void wakeup(Election_INode neighbour, Election_INode identification);
+	public void wakeup(Election_INode neighbour, int id);
 
 	/**
 	 * Incoming "echo" message from a neighbour. The neighbour can also send some
@@ -37,8 +37,6 @@ public interface Election_INode {
 	 * @param neighbour
 	 * @param data
 	 */
-	public void echo(Election_INode neighbour, Object data);
-
-	public int ID();
-
+	public void echo(Election_INode neighbour, Object data, int id, int identities);
+	public void echo(Election_INode neighbour, Object data, int id);
 }

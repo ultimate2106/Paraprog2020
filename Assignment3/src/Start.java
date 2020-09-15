@@ -48,6 +48,8 @@ public class Start {
 		
 			//nodes[0].setupNeighbours(nodes[1], nodes[2]);
 			//nodes[1].setupNeighbours(nodes[3], nodes[4]);
+			try {
+			Thread.sleep(3000);
 		
 			ExecutorService exec = Executors.newFixedThreadPool(10);
 			//ExecutorService exec = Executors.newCachedThreadPool();
@@ -57,7 +59,7 @@ public class Start {
 			rdyForEchoLetch.countDown();
 			
 			exec.shutdown();
-			try {
+			
 				while (!exec.awaitTermination(5, TimeUnit.SECONDS)) {
 					
 				}

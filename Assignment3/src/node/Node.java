@@ -95,11 +95,11 @@ public class Node extends NodeAbstract{
 							}
 							sentWakeups = true;
 						} else {
-							yield();
+							//yield();
 						}
 					} 
 				} else {
-					yield();
+					//yield();
 				}
 				//sleep(1);
 			}

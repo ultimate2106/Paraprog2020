@@ -1,5 +1,7 @@
 package node;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 import abstraction.Election_INode;
@@ -11,31 +13,34 @@ public class Election_Node extends Election_NodeAbstract{
 	private boolean sentRequest = false;
 	
 	private int wakeupCounter = 0;
-	private int numberOfNeighboursKnownFromInitiator = 1;
+	private int id = -1;
+	private int numberOfIdentities = 0;
 	
-	private Election_INode wokeupBy;
-	private Election_INode identificationNode;
-	private ElectionData electionData = null;
+	private Set<Election_INode> wokeupByThisNodes = new HashSet<Election_INode>();
 	
 	
 	private CountDownLatch rdyForEchoLatch;
 	
-	@Override
-	public int ID() 
-	{
-		return id;
-	}
-	
 	//Debug
 //	private boolean showPrint = true;
+	
+	@Override
+	public String toString() {
+		if(initiator || id >= 0) {
+			return name + "(Wave " + id + ")";
+		}
+		else {
+			return super.toString();
+		}
+	}
 
-	public Election_Node(String name,int id, boolean initiator, CountDownLatch rdyForEchoLatch) {
-		super(name, id, initiator);
+	public Election_Node(String name, boolean initiator, CountDownLatch rdyForEchoLatch) {
+		super(name, initiator);
 		this.rdyForEchoLatch = rdyForEchoLatch;
 		
 		if(initiator) {
 			isAwake = true;
-			identificationNode = this;
+			this.id = (int) getId();
 		}
 	}
 
@@ -45,44 +50,49 @@ public class Election_Node extends Election_NodeAbstract{
 	}
 
 	@Override
-	public synchronized void wakeup(Election_INode neighbour, Election_INode identification) {
-		System.out.println(name + " got wakeup by " + neighbour);
+	public synchronized void wakeup(Election_INode neighbour, int id) {
+		System.out.println(name + " got request from " + neighbour);
 		
 		if(!isAwake) 
 		{
 			isAwake = true;
 		}
 		
-		if(identificationNode == null ^ (identificationNode != null && identificationNode.ID() < identification.ID())) {
-			identificationNode = identification;
-			wokeupBy = neighbour;
+		if(this.id == -1 || this.id < id) {
+			System.out.println("Wave " + id + " absorb Node "+ name);
+			this.id = id;
+			if(wokeupByThisNodes.size() > 0) {
+				wokeupByThisNodes.removeAll(wokeupByThisNodes);
+			}
+			wokeupByThisNodes.add(neighbour);
 			sentRequest = false;
 			wakeupCounter = 1;
-			electionData = null;
-		} else if(identificationNode.ID() == identification.ID()) {
+			//initiator = false;
+		} else if(this.id == id) {
 			++wakeupCounter;
-			++numberOfNeighboursKnownFromInitiator;
+			wokeupByThisNodes.add(neighbour);
 		}	
 	}
 
 	@Override
-	public synchronized void echo(Election_INode neighbour, Object data) {
-		System.out.println(name + " got echo by " + neighbour);
-		ElectionData tmp = (ElectionData)data;
-		if(tmp.hasSameIdentification(identificationNode)) 
+	public synchronized void echo(Election_INode neighbour, Object data, int id, int identities) {
+		
+		if(this.id == id) 
 		{
-			if(electionData == null) 
-			{
-				electionData = new ElectionData(identificationNode, tmp.getData());
-			}
-			else 
-			{
-				electionData.add(tmp.getData());
-			}
+			System.out.println(name + " got the number of all known identities (" + identities + ") from " + neighbour);
+			numberOfIdentities += identities + 1;
 			++this.wakeupCounter;
 		}
-		
-
+	}
+	
+	@Override
+	public synchronized void echo(Election_INode neighbour, Object data, int id) 
+	{
+		if(this.id == id) 
+		{
+			System.out.println(name + ": " + neighbour + " is already known");
+			++this.wakeupCounter;
+		}
 	}
 
 	@Override
@@ -99,6 +109,11 @@ public class Election_Node extends Election_NodeAbstract{
 		System.out.println("Done!");
 		System.out.println();
 	}
+	
+	private void printLeader() 
+	{
+		System.out.println(name + " is Leader with " + numberOfIdentities + " identities");
+	}
 
 	@Override
 	public void run() {
@@ -111,43 +126,45 @@ public class Election_Node extends Election_NodeAbstract{
 						//wakeupCounter = 0;
 						//sentWakeups = false;
 						
-						if(initiator) {
-							printTree();						
+						if(initiator && id == (int) getId()) {
+							printLeader();
+							printTree();	
 						} else {
+							
 							isAwake = false;
-							if(electionData == null) {
-								wokeupBy.echo(this, new ElectionData(identificationNode,neighbours.size()-numberOfNeighboursKnownFromInitiator));
-							} else {
-								electionData.add(neighbours.size());
-								wokeupBy.echo(this, electionData);
+							Object[] nodes = wokeupByThisNodes.toArray();
+							
+							
+							for(int i = 0; i < nodes.length; ++i) {
+								if(i == 0) {
+									//((Election_Node)nodes[i]).echo(this, null, id, numberOfIdentities + (neighbours.size() - wokeupByThisNodes.size()));
+									((Election_Node)nodes[i]).echo(this, null, id, numberOfIdentities);
+								} else {
+									((Election_Node)nodes[i]).echo(this, null, id);
+								}
 							}
 							
 							
 						}
-						//threadIsRunning = false;
+						threadIsRunning = false;
 					} else {
 						if(!sentRequest) {						
 							for(Election_INode node : neighbours) {
-								if(node != wokeupBy) {								
-									if(identificationNode != null) {
-										node.wakeup(this, identificationNode);
-									} else {
-										throw new IllegalStateException("Holland in Not");
-									}
+								if(!wokeupByThisNodes.contains(node)) {								
+									node.wakeup(this, id);
 								}
 							} 
 							sentRequest = true;
 						} else {
-							sleep(1000);
+							sleep(1);
 						}
 					} 
 				} else {
-					sleep(1000);
+					sleep(1);
 				}
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

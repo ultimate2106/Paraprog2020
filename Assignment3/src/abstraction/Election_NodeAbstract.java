@@ -10,8 +10,6 @@ public abstract class Election_NodeAbstract extends Thread implements Election_I
 
 	/** Name of this node */
 	protected final String name;
-	
-	protected final int id;
 
 	/** Is this node the initiator of the echo algorithm? */
 	protected final boolean initiator;
@@ -23,10 +21,9 @@ public abstract class Election_NodeAbstract extends Thread implements Election_I
 	protected final Set<Election_INode> neighbours = new HashSet<Election_INode>();
 
 	/** Abstract constructor of a node */
-	public Election_NodeAbstract(String name, int id, boolean initiator) {
+	public Election_NodeAbstract(String name, boolean initiator) {
 		super(name);
 		this.name = name;
-		this.id = id;
 		this.initiator = initiator;
 	}
 
@@ -43,7 +40,7 @@ public abstract class Election_NodeAbstract extends Thread implements Election_I
 	/** Utility method to print this node in a readable way */
 	@Override
 	public String toString() {
-		return name+"("+id+")";
+		return name;
 	}
 
 }
