@@ -63,7 +63,7 @@ public class Election_Start {
 	Election_Node a = new Election_Node("a", true, rdyForEchoLatch);
 	Election_Node b = new Election_Node("b", false, rdyForEchoLatch);
 	Election_Node c = new Election_Node("c",false,rdyForEchoLatch);
-	Election_Node d = new Election_Node("d",true,rdyForEchoLatch);
+	Election_Node d = new Election_Node("d",false,rdyForEchoLatch);
 	
 	a.setupNeighbours(b,c);
 	b.setupNeighbours(a,d);

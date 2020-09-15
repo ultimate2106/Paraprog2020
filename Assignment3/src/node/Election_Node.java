@@ -137,7 +137,6 @@ public class Election_Node extends Election_NodeAbstract{
 							
 							for(int i = 0; i < nodes.length; ++i) {
 								if(i == 0) {
-									//((Election_Node)nodes[i]).echo(this, null, id, numberOfIdentities + (neighbours.size() - wokeupByThisNodes.size()));
 									((Election_Node)nodes[i]).echo(this, null, id, numberOfIdentities);
 								} else {
 									((Election_Node)nodes[i]).echo(this, null, id);
