@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,22 +13,45 @@ import implementation.NodeFactory.NodeType;
 public class Start {
 	private static CountDownLatch startLatch = new CountDownLatch(1);
 	private static ArrayList<Node> nodes = new ArrayList<Node>();
+	private static boolean isElection = true;
 	
 	public static void main(String[] args) {
 		// Create nodes and add them to list
-		Node nodeA = NodeFactory.GetNode(NodeType.SimpleNode, "A", true, startLatch);
+		Node nodeA;
+		Node nodeB;
+		Node nodeC;
+		Node nodeD;
+		Node nodeE;
+		
+		if(!isElection) {
+			System.out.println("No election.");
+			nodeA = NodeFactory.GetNode(NodeType.SimpleNode, "A", true, startLatch);
+			nodeB = NodeFactory.GetNode(NodeType.SimpleNode, "B", true, startLatch);
+			nodeC = NodeFactory.GetNode(NodeType.SimpleNode, "C", true, startLatch);
+			nodeD = NodeFactory.GetNode(NodeType.SimpleNode, "D", true, startLatch);
+			nodeE = NodeFactory.GetNode(NodeType.SimpleNode, "E", true, startLatch);	
+		} else {
+			System.out.println("Election enabled.");
+			
+			boolean initiator = true;
+			Random rnd = new Random();
+			
+			nodeA = NodeFactory.GetNode(NodeType.ElectionNode, "A", initiator, startLatch);
+			
+			initiator = rnd.nextBoolean();
+			nodeB = NodeFactory.GetNode(NodeType.ElectionNode, "B", initiator, startLatch);
+			initiator = rnd.nextBoolean();
+			nodeC = NodeFactory.GetNode(NodeType.ElectionNode, "C", initiator, startLatch);
+			initiator = rnd.nextBoolean();
+			nodeD = NodeFactory.GetNode(NodeType.ElectionNode, "D", initiator, startLatch);
+			initiator = rnd.nextBoolean();
+			nodeE = NodeFactory.GetNode(NodeType.ElectionNode, "E", initiator, startLatch);
+		}
+		
 		nodes.add(nodeA);
-		
-		Node nodeB = NodeFactory.GetNode(NodeType.SimpleNode, "B", true, startLatch);
 		nodes.add(nodeB);
-		
-		Node nodeC = NodeFactory.GetNode(NodeType.SimpleNode, "C", true, startLatch);
 		nodes.add(nodeC);
-		
-		Node nodeD = NodeFactory.GetNode(NodeType.SimpleNode, "D", true, startLatch);
 		nodes.add(nodeD);
-		
-		Node nodeE = NodeFactory.GetNode(NodeType.SimpleNode, "E", true, startLatch);
 		nodes.add(nodeE);
 		
 		// Connect the nodes (neighbours ya know..)

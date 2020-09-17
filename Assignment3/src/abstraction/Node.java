@@ -11,19 +11,18 @@ public abstract class Node extends NodeAbstract {
 		WaitAnswers
 	}
 	
-	protected InternalConnectionData internalConnectionData = new InternalConnectionData();
+	private CountDownLatch startLatch;
 	
-	protected NodeState currentState = NodeState.Idle;
-	
+	protected int id = 0;
 	protected boolean isRunning = true;
 	
+	// Set in wakeup
+	protected NodeState currentState = NodeState.Idle;
 	protected INode wokeupBy = null;
-	
-	protected boolean isAwake = false;
-	
+
+	// Stuff to reset in election
+	protected InternalConnectionData internalConnectionData = new InternalConnectionData();	
 	protected int messageCount = 0;
-	
-	private CountDownLatch startLatch;
 	
 	// -------------------------------------------------------------------------------------------------------------
 	
@@ -47,6 +46,7 @@ public abstract class Node extends NodeAbstract {
 			node.hello(this);
 		}
 	}
+	
 	// ----------------------------------------------------------------------------------
 		
 	
@@ -75,21 +75,24 @@ public abstract class Node extends NodeAbstract {
 				break;
 			case WaitAnswers:
 				if(messageCount >= neighbours.size()) {
-					if(!initiator) {
+					if(ShallSendEcho()) {
 						SendEcho();
 					}
 					Finish();
 				}
-				break;
+				break;				
 			}
+		
+			Thread.yield();
 		}
 	}
 	
 	public void Shutdown() {
 		isRunning = false;
 	}
-	
+		
 	protected abstract void SendWakeups();
+	protected abstract boolean ShallSendEcho();
 	protected abstract void SendEcho();
 	protected abstract void Finish();
 	// ----------------------------------------------------------------------------------

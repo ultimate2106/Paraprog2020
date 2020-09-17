@@ -23,6 +23,7 @@ public class NodeFactory {
 			
 			return new SimpleNode(name, false, startLatch);
 		case ElectionNode:
+			return new ElectionNode(name, isInitiator, startLatch, nextNodeId++);
 		default:
 			return null;
 		}

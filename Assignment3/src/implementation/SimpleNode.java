@@ -14,7 +14,7 @@ public class SimpleNode extends Node {
 	//Monitor methods (synch)
 	// ----------------------------------------------------------------------------------
 	@Override
-	public synchronized void wakeup(INode neighbour) {
+	public synchronized void wakeup(INode neighbour, int id) {
 		System.out.println(name + " got wakeup from " + neighbour.toString());
 		
 		++messageCount;
@@ -26,7 +26,7 @@ public class SimpleNode extends Node {
 	}
 
 	@Override
-	public synchronized void echo(INode neighbour, Object data) {
+	public synchronized void echo(INode neighbour, Object data, int id) {
 		System.out.println(name + " got echo from " + neighbour.toString());
 		
 		++messageCount;
@@ -39,7 +39,7 @@ public class SimpleNode extends Node {
 	protected void SendWakeups() {
 		for(INode node : neighbours) {
 			if(!node.equals(wokeupBy)) {
-				node.wakeup(this);
+				node.wakeup(this, id);
 			}
 		}
 		
@@ -47,8 +47,17 @@ public class SimpleNode extends Node {
 	}
 	
 	@Override
+	protected boolean ShallSendEcho() {
+		if(initiator)
+			return false;
+		
+		return true;
+	}
+	
+	@Override
 	protected void SendEcho() {
-		wokeupBy.echo(this, internalConnectionData);
+		System.out.println(name + " sending echo to " + wokeupBy);
+		wokeupBy.echo(this, internalConnectionData, id);
 	}
 	
 	
