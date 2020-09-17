@@ -25,7 +25,7 @@ public interface INode {
 	 * 
 	 * @param neighbour
 	 */
-	public void wakeup(INode neighbour);
+	public void wakeup(INode neighbour, int currentMasterId);
 
 	/**
 	 * Incoming "echo" message from a neighbour. The neighbour can also send some
@@ -36,6 +36,6 @@ public interface INode {
 	 * @param neighbour
 	 * @param data
 	 */
-	public void echo(INode neighbour, Object data);
+	public void echo(INode neighbour, Object data, int currentMasterId);
 
 }
