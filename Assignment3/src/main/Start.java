@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import abstraction.Node;
 import implementation.NodeFactory;
@@ -13,7 +14,7 @@ import implementation.NodeFactory.NodeType;
 public class Start {
 	private static CountDownLatch startLatch = new CountDownLatch(1);
 	private static ArrayList<Node> nodes = new ArrayList<Node>();
-	private static boolean isElection = true;
+	private static boolean isElection = false;
 	
 	public static void main(String[] args) {
 		// Create nodes and add them to list
@@ -66,6 +67,13 @@ public class Start {
 		}
 		
 		startLatch.countDown();
+		try {
+			execService.shutdown();
+			execService.awaitTermination(5, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
