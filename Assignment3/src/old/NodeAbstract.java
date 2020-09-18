@@ -1,4 +1,4 @@
-package abstraction;
+package old;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Abstract implementation of the Node interface.
  */
-public abstract class Election_NodeAbstract extends Thread implements Election_INode {
+public abstract class NodeAbstract extends Thread implements INode {
 
 	/** Name of this node */
 	protected final String name;
@@ -18,10 +18,10 @@ public abstract class Election_NodeAbstract extends Thread implements Election_I
 	 * Collection of known neighbours of this node; only the methods of the
 	 * neighbours in this collection can be called.
 	 */
-	protected final Set<Election_INode> neighbours = new HashSet<Election_INode>();
+	protected final Set<INode> neighbours = new HashSet<INode>();
 
 	/** Abstract constructor of a node */
-	public Election_NodeAbstract(String name, boolean initiator) {
+	public NodeAbstract(String name, boolean initiator) {
 		super(name);
 		this.name = name;
 		this.initiator = initiator;
@@ -35,7 +35,7 @@ public abstract class Election_NodeAbstract extends Thread implements Election_I
 	 * "b" as its neighbour, also node "b" must have node "a" as its neighbour)!
 	 * Therefore call method <code>hello</code> of each neighbour here.
 	 */
-	public abstract void setupNeighbours(Election_INode... neighbours);
+	public abstract void setupNeighbours(INode... neighbours);
 
 	/** Utility method to print this node in a readable way */
 	@Override

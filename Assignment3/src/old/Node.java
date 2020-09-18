@@ -1,9 +1,6 @@
-package node;
+package old;
 
 import java.util.concurrent.CountDownLatch;
-
-import abstraction.INode;
-import abstraction.NodeAbstract;
 
 public class Node extends NodeAbstract{
 

@@ -1,11 +1,9 @@
-package node;
+package old;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
-import abstraction.Election_INode;
-import abstraction.Election_NodeAbstract;
 
 public class Election_Node extends Election_NodeAbstract{
 	private boolean isAwake = false;

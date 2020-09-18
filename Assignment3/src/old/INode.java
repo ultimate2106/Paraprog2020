@@ -1,10 +1,10 @@
-package abstraction;
+package old;
 
 /**
  * This interface defines the methods of each node participating in the echo
  * algorithm. These methods can be called by the neighbours of a node.
  */
-public interface Election_INode {
+public interface INode {
 
 	/**
 	 * Greetings from a neighbour. Before starting the echo algorithm this message
@@ -18,15 +18,14 @@ public interface Election_INode {
 	 * 
 	 * @param neighbour
 	 */
-	public void hello(Election_INode neighbour);
+	public void hello(INode neighbour);
 
 	/**
 	 * Incoming "wakeup" message from a neighbour.
 	 * 
 	 * @param neighbour
-	 * @param identification
 	 */
-	public void wakeup(Election_INode neighbour, int id);
+	public void wakeup(INode neighbour);
 
 	/**
 	 * Incoming "echo" message from a neighbour. The neighbour can also send some
@@ -37,6 +36,6 @@ public interface Election_INode {
 	 * @param neighbour
 	 * @param data
 	 */
-	public void echo(Election_INode neighbour, Object data, int id, int identities);
-	public void echo(Election_INode neighbour, Object data, int id);
+	public void echo(INode neighbour, Object data);
+
 }
