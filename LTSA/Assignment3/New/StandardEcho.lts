@@ -1,0 +1,39 @@
+//Define Boolean
+const True = 1
+const False = 0
+range Boolean = False..True
+
+//Constants for Nodes
+const NighbourCountA = 2
+const NeighbourCountB = 3
+const NeighbourCountC = 1
+
+NodeAInit = NodeA[True][True][False][False][0][NighbourCountA][0],
+NodeA[initiator:Boolean][isAwake:Boolean][sentWakeupB:Boolean][sentWakeupC:Boolean][echosGotten:0..NighbourCountA][neighbourCount:NighbourCountA..NighbourCountA][wokeupBy:0..NighbourCountA] = (
+	//Incoming Wakeups
+	when(echosGotten < neighbourCount) wakeupAByB -> NodeA[initiator][True][sentWakeupB][sentWakeupC][echosGotten+1][neighbourCount][1] |
+	when(echosGotten < neighbourCount) wakeupAByC -> NodeA[initiator][True][sentWakeupB][sentWakeupC][echosGotten+1][neighbourCount][2] |
+	//Outgoing Wakeups
+	when(isAwake && !sentWakeupB && echosGotten < neighbourCount && wokeupBy != 1) wakeupBByA -> NodeA[initiator][isAwake][True][sentWakeupC][echosGotten][neighbourCount][wokeupBy] |
+	when(isAwake && !sentWakeupC && echosGotten < neighbourCount && wokeupBy != 2) wakeupCByA -> NodeA[initiator][isAwake][sentWakeupB][True][echosGotten][neighbourCount][wokeupBy]
+	//Incoming Echos
+	//[TODO] Echos für NodeB und NodeC erstellen.
+).
+
+NodeBInit = NodeB[False][False][False][False][False][0][NeighbourCountB][0],
+NodeB[initiator:Boolean][isAwake:Boolean][sentWakeupA:Boolean][sentWakeupD:Boolean][sentWakeupE:Boolean][echosGotten:0..NeighbourCountB][neighbourCount:NeighbourCountB..NeighbourCountB][wokeupBy:0..NeighbourCountB] = (
+	//Incoming Wakeups
+	when(echosGotten < neighbourCount) wakeupBByA -> NodeB[initiator][True][sentWakeupA][sentWakeupD][sentWakeupE][echosGotten+1][neighbourCount][1] |
+	//Outgoing Wakeups
+	when(isAwake && !sentWakeupA && echosGotten < neighbourCount && wokeupBy != 1) wakeupAByB -> NodeB[initiator][True][True][sentWakeupD][sentWakeupE][echosGotten][neighbourCount][wokeupBy]
+).
+
+NodeCInit = NodeC[False][False][False][0][NeighbourCountC][0],
+NodeC[initiator:Boolean][isAwake:Boolean][sentWakeupA:Boolean][echosGotten:0..NeighbourCountC][neighbourCount:NeighbourCountC..NeighbourCountC][wokeupBy:0..NeighbourCountC] = (
+	//Incoming Wakeups
+	when(echosGotten < neighbourCount) wakeupCByA -> NodeC[initiator][True][sentWakeupA][echosGotten+1][neighbourCount][1] |
+	//Outgoing Wakeups
+	when(isAwake && !sentWakeupA && echosGotten < neighbourCount && wokeupBy != 1) wakeupAByC -> NodeC[initiator][isAwake][True][echosGotten][neighbourCount][wokeupBy]
+).
+
+||Nodes = (NodeAInit || NodeBInit || NodeCInit).
