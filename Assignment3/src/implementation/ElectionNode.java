@@ -38,13 +38,14 @@ public class ElectionNode extends SimpleNode {
 				//Reset stuff
 				messageCount = 0;
 				internalConnectionData.GetData().clear();
+				currentState = NodeState.SendMessages;
 			}
 			
 			++messageCount;
 			
-			if(currentMasterId < id) {
-				currentState = NodeState.SendMessages;
-			}
+			/*if(currentMasterId < id) {
+				
+			}*/
 		}
 		
 		System.out.println(name + " got wakeup from " + neighbour.toString() + ". CurrentId: " + currentMasterId);

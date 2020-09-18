@@ -14,7 +14,7 @@ import implementation.NodeFactory.NodeType;
 public class Start {
 	private static CountDownLatch startLatch = new CountDownLatch(1);
 	private static ArrayList<Node> nodes = new ArrayList<Node>();
-	private static boolean isElection = false;
+	private static boolean isElection = true;
 	
 	public static void main(String[] args) {
 		// Create nodes and add them to list
