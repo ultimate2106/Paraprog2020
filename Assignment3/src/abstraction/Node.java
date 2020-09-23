@@ -83,7 +83,12 @@ public abstract class Node extends NodeAbstract {
 				break;				
 			}
 		
-			Thread.yield();
+			//Thread.yield();
+			try {
+				sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
