@@ -16,8 +16,19 @@ public class Start {
 	private static ArrayList<Node> nodes = new ArrayList<Node>();
 	private static boolean isElection = true;
 	
+	private static void buildGraph(String[] args) 
+	{
+		
+	}
+	
 	public static void main(String[] args) {
 		// Create nodes and add them to list
+		if(args.length >= 4) {
+			buildGraph(args);
+		} else {
+			System.out.println("Usage: Must specify at least four arguments");
+		}	
+		
 		Node nodeA;
 		Node nodeB;
 		Node nodeC;
