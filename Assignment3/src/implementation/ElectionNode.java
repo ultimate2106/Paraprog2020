@@ -7,6 +7,7 @@ import output.InternalConnectionData;
 
 public class ElectionNode extends SimpleNode {
 	private int currentMasterId = 0;
+	private boolean isShuttingDown = false;
 	
 	public ElectionNode(String name, boolean initiator, CountDownLatch startLatch, int id) {
 		super(name, initiator, startLatch);
@@ -22,7 +23,8 @@ public class ElectionNode extends SimpleNode {
 	public synchronized void wakeup(INode neighbour, int id) {		
 		// When idle or when my master is weak.
 		if(currentState.equals(NodeState.Idle)) {
-			if(!initiator || (initiator && currentMasterId < id)) {
+			//Equals should only apply in second run. If not working, remove equals and reset ID instead at end of election.
+			if(!initiator || (initiator && currentMasterId <= id)) {
 				currentMasterId = id;
 				wokeupBy = neighbour;
 				++messageCount;
@@ -36,19 +38,24 @@ public class ElectionNode extends SimpleNode {
 				wokeupBy = neighbour;
 				
 				//Reset stuff
-				messageCount = 0;
-				internalConnectionData.GetData().clear();
+				Reset(false);
 				currentState = NodeState.SendMessages;
 			}
 			
 			++messageCount;
-			
-			/*if(currentMasterId < id) {
-				
-			}*/
 		}
 		
-		System.out.println(name + " got wakeup from " + neighbour.toString() + ". CurrentId: " + currentMasterId);
+		System.out.println(name + " got wakeup from " + neighbour.toString() +
+												(!isShuttingDown ? ". CurrentId: " + currentMasterId : ""));
+	}
+	
+	private void Reset(boolean isFinished) {
+		messageCount = 0;
+		internalConnectionData.GetData().clear();
+		if(isFinished) {
+			isShuttingDown = true;
+			wokeupBy = null;
+		}
 	}
 	
 	@Override
@@ -89,14 +96,20 @@ public class ElectionNode extends SimpleNode {
 
 	@Override
 	protected void Finish() {
-		if(initiator && currentMasterId == id) {
-			internalConnectionData.PrintTree();
-			System.out.println();
-			System.out.println("Start next round!");
-			currentState = NodeState.SendMessages;
+		if(!isShuttingDown) {
+			if(initiator && currentMasterId == id) {
+				internalConnectionData.PrintTree();
+				System.out.println();
+				System.out.println("Start Echo!");
+				currentState = NodeState.SendMessages;
+			} else {	
+				System.out.println(name + " going idle.");
+				currentState = NodeState.Idle;
+			}
+			
+			Reset(true);
 		} else {
-			System.out.println(name + " going idle.");
-			currentState = NodeState.Idle;
+			Shutdown();
 		}
 	}
 }

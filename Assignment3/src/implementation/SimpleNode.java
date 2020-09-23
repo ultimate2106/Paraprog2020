@@ -63,7 +63,12 @@ public class SimpleNode extends Node {
 	
 	@Override
 	protected void Finish() {
-		System.out.println(name + " is finished :)");
+		//System.out.println(name + " is finished :)");
+		try {
+			sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		if(initiator) {
 			internalConnectionData.PrintTree();
