@@ -22,12 +22,12 @@ public class Start {
 			Node node = nodes.get(connections[i+1]);
 			neighbours[i] = node;
 			if(node == null) {
-				System.out.println(node + " not Exist");
+				System.out.println("Usage: Node " + connections[i+1] + " don't exist");
 			}
 		}
 		Node node = nodes.get(connections[0]);
 		if(node == null) {
-			System.out.println(node + " not Exist");
+			System.out.println("Usage: Node " + connections[0] + " don't exist");
 		}
 		node.setupNeighbours(neighbours);
 	}
