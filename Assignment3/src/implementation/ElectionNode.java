@@ -1,5 +1,6 @@
 package implementation;
 
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 import abstraction.INode;
@@ -8,6 +9,7 @@ import output.InternalConnectionData;
 public class ElectionNode extends SimpleNode {
 	private int currentMasterId = 0;
 	private boolean isShuttingDown = false;
+	private ArrayList<INode> additionelWokeupsBy = new ArrayList<INode>();
 	
 	public ElectionNode(String name, boolean initiator, CountDownLatch startLatch, int id) {
 		super(name, initiator, startLatch);
@@ -40,6 +42,9 @@ public class ElectionNode extends SimpleNode {
 				//Reset stuff
 				Reset(false);
 				currentState = NodeState.SendMessages;
+			} else if(currentMasterId == id) {
+				//I 
+				additionelWokeupsBy.add(neighbour);
 			}
 			
 			++messageCount;
@@ -52,6 +57,7 @@ public class ElectionNode extends SimpleNode {
 	private void Reset(boolean isFinished) {
 		messageCount = 0;
 		internalConnectionData.GetData().clear();
+		additionelWokeupsBy.removeAll(additionelWokeupsBy);
 		if(isFinished) {
 			isShuttingDown = true;
 			wokeupBy = null;
@@ -65,15 +71,17 @@ public class ElectionNode extends SimpleNode {
 			
 			++messageCount;
 			
-			internalConnectionData.AddConnection(name + "->" + neighbour.toString());
-			internalConnectionData.AddConnections((InternalConnectionData)data);
+			if(data != null) {
+				internalConnectionData.AddConnection(name + "->" + neighbour.toString());
+				internalConnectionData.AddConnections((InternalConnectionData)data);
+			}
 		}
 	}
 	
 	@Override
 	protected void SendWakeups() {
 		for(INode node : neighbours) {
-			if(!node.equals(wokeupBy)) {
+			if(!node.equals(wokeupBy) && !additionelWokeupsBy.contains(node)) {
 				node.wakeup(this, currentMasterId);
 			}
 		}
@@ -92,6 +100,11 @@ public class ElectionNode extends SimpleNode {
 	@Override
 	protected void SendEcho() {
 		wokeupBy.echo(this, internalConnectionData, currentMasterId);
+		for(INode node : additionelWokeupsBy) 
+		{
+			System.out.println(node + " additonel");
+			node.echo(this, null, currentMasterId);
+		}
 	}
 
 	@Override
