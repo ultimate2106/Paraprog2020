@@ -2,6 +2,7 @@ package abstraction;
 
 import java.util.concurrent.CountDownLatch;
 
+import abstraction.Node.NodeState;
 import output.InternalConnectionData;
 
 public abstract class Node extends NodeAbstract {
@@ -52,6 +53,7 @@ public abstract class Node extends NodeAbstract {
 	
 	// Thread methods
 	// ----------------------------------------------------------------------------------
+	int i = 0;
 	@Override
 	public void run() {
 		if(initiator) {
@@ -71,14 +73,23 @@ public abstract class Node extends NodeAbstract {
 				// Node is not awake (sleeping). So do nothing :)
 				break;
 			case SendMessages:
-				SendWakeups();
+				if(currentState == NodeState.SendMessages) {
+					SendWakeups();
+				}
 				break;
 			case WaitAnswers:
+				//if(i == 0) {
+					System.out.println(this + ": " + messageCount + " >= " + neighbours.size() );
+					//System.out.println(this + " is waiting for answer");
+					//++i;
+				//}			
 				if(messageCount >= neighbours.size()) {
-					if(ShallSendEcho()) {
-						SendEcho();
+					if(currentState == NodeState.WaitAnswers) {
+						if(ShallSendEcho()) {
+							SendEcho();
+						}
+						Finish();
 					}
-					Finish();
 				}
 				break;				
 			}

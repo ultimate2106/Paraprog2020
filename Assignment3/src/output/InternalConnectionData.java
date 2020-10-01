@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class InternalConnectionData {
 	private ArrayList<String> data = new ArrayList<String>();
 	
-	public void AddConnection(String connection) {
+	public synchronized void AddConnection(String connection) {
 		data.add(connection);
 	}
 	
-	public void AddConnections(InternalConnectionData newData) {
+	public synchronized void AddConnections(InternalConnectionData newData) {
 		for(String dataItem : newData.GetData()) {
 			data.add(dataItem);
 		}
@@ -19,7 +19,7 @@ public class InternalConnectionData {
 		return data;
 	}
 	
-	public void PrintTree() {
+	public synchronized void PrintTree() {
 		for(String connection : data) {
 			System.out.println(connection);
 		}
