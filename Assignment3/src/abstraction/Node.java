@@ -73,9 +73,7 @@ public abstract class Node extends NodeAbstract {
 				// Node is not awake (sleeping). So do nothing :)
 				break;
 			case SendMessages:
-				if(currentState == NodeState.SendMessages) {
-					SendWakeups();
-				}
+				SendWakeups();
 				break;
 			case WaitAnswers:
 				//if(i == 0) {
