@@ -1,6 +1,9 @@
 package abstraction;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import abstraction.Node.NodeState;
 import output.InternalConnectionData;
@@ -13,6 +16,7 @@ public abstract class Node extends NodeAbstract {
 	}
 	
 	private CountDownLatch startLatch;
+	protected Lock lock = new ReentrantLock();
 	
 	protected int id = 0;
 	protected boolean isRunning = true;
@@ -76,20 +80,25 @@ public abstract class Node extends NodeAbstract {
 				SendWakeups();
 				break;
 			case WaitAnswers:
-				//if(i == 0) {
-					System.out.println(this + ": " + messageCount + " >= " + neighbours.size() );
-					//System.out.println(this + " is waiting for answer");
-					//++i;
-				//}			
-				if(messageCount >= neighbours.size()) {
-					if(currentState == NodeState.WaitAnswers) {
-						if(ShallSendEcho()) {
-							SendEcho();
+				try {
+					if(lock.tryLock(1000,TimeUnit.MILLISECONDS)) {
+						try {
+							if(messageCount >= neighbours.size() && currentState == NodeState.WaitAnswers) {
+								if(ShallSendEcho()) {
+									SendEcho();
+								}
+								Finish();
+							}
+						} finally {
+							lock.unlock();
 						}
-						Finish();
 					}
-				}
-				break;				
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+				break;
+				
 			}
 		
 			//Thread.yield();

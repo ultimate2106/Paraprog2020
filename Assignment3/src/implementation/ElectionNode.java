@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import abstraction.INode;
 import abstraction.Node.NodeState;
@@ -12,7 +15,6 @@ import output.InternalConnectionData;
 public class ElectionNode extends SimpleNode {
 	private int currentMasterId = 0;
 	private boolean isShuttingDown = false;
-	private List<INode> additionelWokeupsBy = Collections.synchronizedList(new ArrayList<INode>());
 	private INode owner = null;
 	
 	public ElectionNode(String name, boolean initiator, CountDownLatch startLatch, int id) {
@@ -31,54 +33,46 @@ public class ElectionNode extends SimpleNode {
 	}
 	
 	@Override
-	public synchronized void wakeup(INode neighbour, int id) {
-		/*while(owner != null) {
-			try {
-				wait(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
-		//owner = this;
+	public void wakeup(INode neighbour, int id) {
 		// When idle or when my master is weak.
-		if(currentState.equals(NodeState.Idle)) {
+		lock.lock();
+		if(lock.tryLock()) {
+		try {
+			if(currentState.equals(NodeState.Idle)) {
 			//Equals should only apply in second run. If not working, remove equals and reset ID instead at end of election.
-			if(!initiator || (initiator && currentMasterId <= id)) {
-				currentMasterId = id;
-				wokeupBy = neighbour;
-				++messageCount;
-			}
+				if(!initiator || (initiator && currentMasterId <= id)) {			
+					currentMasterId = id;
+					wokeupBy = neighbour;
+					++messageCount;
+				}
 			
-			currentState = NodeState.SendMessages;
-		} else if(currentMasterId <= id) {			
-			if(currentMasterId < id) {
-				System.out.println(name + " got reset from "+ neighbour +".");
-				currentMasterId = id;
-				wokeupBy = neighbour;
+				currentState = NodeState.SendMessages;
+			} else if(currentMasterId <= id) {			
+				if(currentMasterId < id) {
+					System.out.println(name + " got reset from "+ neighbour +".");
+					currentMasterId = id;
+					wokeupBy = neighbour;
 				
 				//Reset stuff
-				Reset(false);
-				currentState = NodeState.SendMessages;
-			} /*else if(currentMasterId == id) {
-				//System.out.println(name + "Two Wakeups"); 
-				additionelWokeupsBy.add(neighbour);
-			}*/
+					Reset(false);
+					currentState = NodeState.SendMessages;
+				}
 			
-			++messageCount;
-		}
+				++messageCount;
+			}
 		
-		System.out.println(name + " got wakeup from " + neighbour.toString() +
+			System.out.println(name + " got wakeup from " + neighbour.toString() +
 												(!isShuttingDown ? ". CurrentId: " + currentMasterId : ""));
-		//owner = null;
-		//notifyAll();
+		} finally {
+			lock.unlock();
+		}
+		} 
 	}
 	
-	private synchronized void Reset(boolean isFinished) {
+	private void Reset(boolean isFinished) {
 		//System.out.println(this + " Reset: messageCount is " + messageCount);
 		messageCount = 0;
 		internalConnectionData.GetData().clear();
-		additionelWokeupsBy = Collections.synchronizedList(new ArrayList<INode>());
 		if(isFinished) {
 			isShuttingDown = true;
 			wokeupBy = null;
@@ -87,27 +81,27 @@ public class ElectionNode extends SimpleNode {
 	
 	@Override
 	public synchronized void echo(INode neighbour, Object data, int currentMasterId) {
-		/*while(owner != null) {
-			try {
-				wait(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			if(lock.tryLock(1000,TimeUnit.MILLISECONDS)) {
+				try {
+			if(this.currentMasterId == currentMasterId) {
+				System.out.println(name + " got echo from " + neighbour.toString());
+				
+				++messageCount;
+				
+				if(data != null) {
+					internalConnectionData.AddConnection(name + "->" + neighbour.toString());
+					internalConnectionData.AddConnections((InternalConnectionData)data);
+				}
 			}
-		}
-		owner = this;*/
-		if(this.currentMasterId == currentMasterId) {
-			System.out.println(name + " got echo from " + neighbour.toString());
-			
-			++messageCount;
-			
-			if(data != null) {
-				internalConnectionData.AddConnection(name + "->" + neighbour.toString());
-				internalConnectionData.AddConnections((InternalConnectionData)data);
+				} finally {
+					lock.unlock();
+				}
 			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		//owner = null;
-		//notifyAll();
 	}
 	
 	@Override
@@ -121,13 +115,14 @@ public class ElectionNode extends SimpleNode {
 			}
 		}
 		owner = this;*/
-		INode localWokeupBy = wokeupBy;
-		List<INode> localAdditionelWokeups = additionelWokeupsBy;
-		int localId = currentMasterId;
+		INode localWokeupBy;
+		int localId;
+		localWokeupBy = wokeupBy;
+		localId = currentMasterId;
 		
 		for(INode node : neighbours) {
-			if(!node.equals(localWokeupBy) && !localAdditionelWokeups.contains(node)) {
-				System.out.println(name + " send wakeup to " + node);
+			if(!node.equals(localWokeupBy)) {
+				//System.out.println(name + " send wakeup to " + node);
 				node.wakeup(this, localId);
 			}
 		}
@@ -140,58 +135,22 @@ public class ElectionNode extends SimpleNode {
 	}
 	
 	@Override
-	protected synchronized boolean ShallSendEcho() {
-		/*while(owner != null) {
-			try {
-				wait(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		owner = this;*/
+	protected boolean ShallSendEcho() {
 		if(initiator && currentMasterId == id)
 			return false;
-		
-		//owner = null;
-		//notifyAll();
 		return true;
 	}
 	
 	@Override
 	protected void SendEcho() {
-		/*while(owner != null) {
-			try {
-				wait(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
-		//owner = this;
 		int localId = currentMasterId;
 		InternalConnectionData localdata = internalConnectionData;
+		
 		wokeupBy.echo(this, localdata, localId);
-		/*for(INode node : additionelWokeupsBy) 
-		{
-			node.echo(this, null, currentMasterId);
-		}*/
-		//owner = null;
-		//notifyAll();
 	}
 
 	@Override
-	protected synchronized void Finish() {
-		/*while(owner != null) {
-			try {
-				wait(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		owner = this;*/
-		
+	protected void Finish() {
 		if(!isShuttingDown) {
 			if(initiator && currentMasterId == id) {
 				internalConnectionData.PrintTree();
