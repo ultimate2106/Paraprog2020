@@ -58,10 +58,10 @@ public class Start {
 		
 		if(!isElection) {
 			System.out.println("No election.");
-			createNodes(args[1].split(","), args[2].split(","), NodeType.SimpleNode);
+			createNodes(args[2].split(","), args[1].split(","), NodeType.SimpleNode);
 		} else {
 			System.out.println("Election enabled.");
-			createNodes(args[1].split(","), args[2].split(","), NodeType.ElectionNode);
+			createNodes(args[2].split(","), args[1].split(","), NodeType.ElectionNode);
 		}
 		
 		for(int i = 3; i < args.length; ++i) {
