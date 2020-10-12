@@ -12,8 +12,8 @@ import output.InternalConnectionData;
 public class ElectionNode extends SimpleNode {
 	private int currentMasterId = 0;
 	private boolean isShuttingDown = false;
+	private boolean reset = false;
 	private INode owner = null;
-	private boolean timeout = false;
 	private INode lastNode = null;
 	
 	public ElectionNode(String name, boolean initiator, CountDownLatch startLatch, int id) {
@@ -71,9 +71,14 @@ public class ElectionNode extends SimpleNode {
 		lastNode = null;
 		if(isFinished) {
 			isShuttingDown = true;
-			System.out.println("isShuttingDown = true");
 			wokeupBy = null;
+			reset = false;
 		} 
+		else 
+		{
+			reset = true;
+		}
+		
 	}
 	
 	@Override
@@ -93,8 +98,10 @@ public class ElectionNode extends SimpleNode {
 	
 	
 	@Override
-	protected synchronized void SendWakeups() {		
-		timeout = false;
+	protected synchronized void SendWakeups() {
+		//System.out.println(this + ".SendWakeups()");
+		reset = false;
+		boolean timeout = false;
 		owner = this;
 		for(INode node : neighbours) {
 			if(!node.equals(wokeupBy) && (node == lastNode || lastNode == null)) {
@@ -106,16 +113,13 @@ public class ElectionNode extends SimpleNode {
 				
 				while(!(((ElectionNode)node).getOwner() == null || ((ElectionNode)node).getOwner() == this)) {
 					try {
-						if(timeout) 
-						{
-							System.out.println(this + ": wakeup timeout");
-							lastNode = node;
+						if(timeout || reset) {	
+							lastNode = !reset ? node : null;
 							owner = null;
 							notifyAll();
 							return;
 						}
 						wait(10);	
-						System.out.println(this + ": timeout == " + timeout);
 						timeout = true;
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -123,8 +127,17 @@ public class ElectionNode extends SimpleNode {
 					}
 				}
 				
-				node.wakeup(this, currentMasterId);
-			}
+				if(!reset) {
+				    node.wakeup(this, currentMasterId);
+				} else {
+					reset = false;
+					lastNode = null;
+					owner = null;
+					notifyAll();
+					return;
+				}
+				
+			} 
 		}
 		currentState = NodeState.WaitAnswers;
 		owner = null;
@@ -138,32 +151,42 @@ public class ElectionNode extends SimpleNode {
 		return true;
 	}
 	
+	int i = 0;
 	@Override
 	protected synchronized void SendEcho() {
-		timeout = false;
-		owner = this; 
-		
-		if(messageCount >= neighbours.size() && currentState == NodeState.WaitAnswers) {
-			if(ShallSendEcho()) {
-				while(!(((ElectionNode)wokeupBy).getOwner() == null || ((ElectionNode)wokeupBy).getOwner() == this)) {
-					try {
-						if(timeout) 
-						{
-							owner = null;
-							notifyAll();
-							return;
-						}
-						wait(10);
-						timeout = true;
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				wokeupBy.echo(this, internalConnectionData, currentMasterId);
-			}
-			Finish();
+		//System.out.println(this + ".SendEcho()");
+		boolean timeout = false;
+		owner = this;
+		if(i  < 10) {
+			System.out.println(this + ": " + messageCount + " >= " + neighbours.size() );
+			++i;
 		}
+		while(!((messageCount >= neighbours.size() 
+				&& currentState == NodeState.WaitAnswers) 
+			&& (!ShallSendEcho()
+			    || (((ElectionNode)wokeupBy).getOwner() == null 
+						|| ((ElectionNode)wokeupBy).getOwner() == this))		
+		)) {
+			try {
+				if(timeout || reset) 
+				{
+					//System.out.println(this + " timeout");
+					owner = null;
+					notifyAll();
+					return;
+				}
+				wait(1);
+				timeout = true;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(ShallSendEcho()) {
+			wokeupBy.echo(this, internalConnectionData, currentMasterId);
+		} 
+		Finish();	
+		
 		owner = null;
 		notifyAll();
 	}
@@ -171,6 +194,7 @@ public class ElectionNode extends SimpleNode {
 	@Override
 	protected synchronized void Finish() {
 		if(!isShuttingDown) {
+			System.out.println(this + " for me it is over");
 			if(initiator && currentMasterId == id) {
 				internalConnectionData.PrintTree();
 				finishElection();
@@ -183,7 +207,6 @@ public class ElectionNode extends SimpleNode {
 			}
 			
 		} else {
-			System.out.println(this + " says ciao");
 			Shutdown();
 		}
 	}
@@ -221,6 +244,7 @@ public class ElectionNode extends SimpleNode {
 				SendWakeups();
 				break;
 			case WaitAnswers:
+				//System.out.println(this + ".SendEcho()");
 				SendEcho();
 				break;
 				
