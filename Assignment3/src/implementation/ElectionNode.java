@@ -1,12 +1,8 @@
 package implementation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import abstraction.INode;
-import abstraction.Node.NodeState;
 import output.InternalConnectionData;
 
 public class ElectionNode extends SimpleNode {
@@ -106,20 +102,19 @@ public class ElectionNode extends SimpleNode {
 		for(INode node : neighbours) {
 			if(!node.equals(wokeupBy) && (node == lastNode || lastNode == null)) {
 				
-				if(lastNode != null) 
-				{
+				if(lastNode != null) {
 					lastNode = null;
 				}
-				
 				while(!(((ElectionNode)node).getOwner() == null || ((ElectionNode)node).getOwner() == this)) {
 					try {
 						if(timeout || reset) {	
 							lastNode = !reset ? node : null;
+							reset = false;
 							owner = null;
 							notifyAll();
 							return;
 						}
-						wait(10);	
+						wait(1);	
 						timeout = true;
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -151,16 +146,12 @@ public class ElectionNode extends SimpleNode {
 		return true;
 	}
 	
-	int i = 0;
 	@Override
 	protected synchronized void SendEcho() {
-		//System.out.println(this + ".SendEcho()");
+		boolean reset = false;
 		boolean timeout = false;
 		owner = this;
-		if(i  < 10) {
-			System.out.println(this + ": " + messageCount + " >= " + neighbours.size() );
-			++i;
-		}
+		
 		while(!((messageCount >= neighbours.size() 
 				&& currentState == NodeState.WaitAnswers) 
 			&& (!ShallSendEcho()
@@ -170,7 +161,7 @@ public class ElectionNode extends SimpleNode {
 			try {
 				if(timeout || reset) 
 				{
-					//System.out.println(this + " timeout");
+					reset = false;
 					owner = null;
 					notifyAll();
 					return;
@@ -182,11 +173,14 @@ public class ElectionNode extends SimpleNode {
 				e.printStackTrace();
 			}
 		}
-		if(ShallSendEcho()) {
-			wokeupBy.echo(this, internalConnectionData, currentMasterId);
-		} 
-		Finish();	
-		
+		if(!reset) {
+			if(ShallSendEcho()) {
+				wokeupBy.echo(this, internalConnectionData, currentMasterId);
+			} 
+			Finish();	
+		} else {
+			reset = false;
+		}	
 		owner = null;
 		notifyAll();
 	}
@@ -194,7 +188,6 @@ public class ElectionNode extends SimpleNode {
 	@Override
 	protected synchronized void Finish() {
 		if(!isShuttingDown) {
-			System.out.println(this + " for me it is over");
 			if(initiator && currentMasterId == id) {
 				internalConnectionData.PrintTree();
 				finishElection();

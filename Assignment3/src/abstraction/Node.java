@@ -67,7 +67,6 @@ public abstract class Node extends NodeAbstract {
 		}
 		
 		while(isRunning) {
-			System.out.println(this + ": currentState =" + currentState);
 			switch(currentState) {
 			case Idle:
 				// Node is not awake (sleeping). So do nothing :)
