@@ -88,7 +88,19 @@ public class Start {
 				e.printStackTrace();
 			}
 		} else {
-			System.out.println("Usage: Must specify at least four arguments");
+			System.out.println("Usage: Must specify at least four arguments \n");
+			System.out.println("arg[0] --- Argument must be 'true' or 'false' (without ').\n"
+							+ "true = use Election Algorithm \n"
+							+ "false = use Echo Algorithm \n\n"
+							+ "arg[1] --- Specify the names of the Nodes seperated with a comma.\n"
+							+ "For Example a,b,c = Graph with the Nodes a, b and c \n\n"
+							+ "arg[2] --- Specify the Initiators.\n"
+							+ "For Example a,b = Graph has the initiators a and b. \n\n"
+							+ "arg[i >= 3] --- Specify the connections of a Node\n"
+							+ "For Example b,d,e = b has a connection with d and b has a connection with e, "
+							+ "but d and e hasn't a connection\n");
+							
+							
 		}	
 		
 		/*Node nodeA;
