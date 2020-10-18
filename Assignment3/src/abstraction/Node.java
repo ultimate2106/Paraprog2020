@@ -5,6 +5,11 @@ import java.util.concurrent.CountDownLatch;
 import abstraction.Node.NodeState;
 import output.InternalConnectionData;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ *
+ */
 public abstract class Node extends NodeAbstract {
 	public enum NodeState {
 		Idle,
@@ -27,7 +32,12 @@ public abstract class Node extends NodeAbstract {
 	
 	// -------------------------------------------------------------------------------------------------------------
 	
-	
+	/**
+	 * 
+	 * @param name Name der Node
+	 * @param initiator Abfrage ob die Node ein Initiator ist
+	 * @param startLatch Zähler für die Nachbarn
+	 */
 	public Node(String name, boolean initiator, CountDownLatch startLatch) {
 		super(name, initiator);
 		this.startLatch = startLatch;

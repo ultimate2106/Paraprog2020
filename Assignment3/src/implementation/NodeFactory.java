@@ -4,6 +4,11 @@ import java.util.concurrent.CountDownLatch;
 
 import abstraction.Node;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ *
+ */
 public class NodeFactory {
 	private static int nextNodeId = 1;
 	private static boolean isInitiatorDeclared = false;
@@ -13,6 +18,15 @@ public class NodeFactory {
 		ElectionNode
 	}
 	
+	/**
+	 * Rückgabe eines bestimmten Node Objektes
+	 * 
+	 * @param type Überprüft, ob es sich um den Echo oder Election Algorithmus handelt
+	 * @param name Name der Node
+	 * @param isInitiator Abfrage ob die Node ein Initiator ist
+	 * @param startLatch Zähler für die Nachbarn
+	 * @return Node für den Echo oder Election Algorithmus. Bei falscher Eingabe wird null zurückgegeben.
+	 */
 	public static Node GetNode(NodeType type, String name, boolean isInitiator, CountDownLatch startLatch) {
 		switch(type) {
 		case SimpleNode:

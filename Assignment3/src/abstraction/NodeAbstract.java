@@ -6,6 +6,12 @@ import java.util.Set;
 /**
  * Abstract implementation of the Node interface.
  */
+
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ *
+ */
 public abstract class NodeAbstract extends Thread implements INode {
 
 	/** Name of this node */
@@ -21,6 +27,11 @@ public abstract class NodeAbstract extends Thread implements INode {
 	protected final Set<INode> neighbours = new HashSet<INode>();
 
 	/** Abstract constructor of a node */
+	/**
+	 * 
+	 * @param name Name der Node
+	 * @param initiator Abfrage ob die Node ein Initiator ist
+	 */
 	public NodeAbstract(String name, boolean initiator) {
 		super(name);
 		this.name = name;

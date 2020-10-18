@@ -5,13 +5,40 @@ import java.util.concurrent.CountDownLatch;
 import abstraction.INode;
 import output.InternalConnectionData;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ *
+ */
 public class ElectionNode extends SimpleNode {
+	/*
+	 * Aktuelle ID
+	 */
 	private int currentMasterId = 0;
+	/*
+	 * Ob der Algorithmus abgeschlossen ist
+	 */
 	private boolean isShuttingDown = false;
+	/*
+	 * Ob diese Node zurückgesetzt werden muss
+	 */
 	private boolean reset = false;
+	/*
+	 * Initiator dieser Node
+	 */
 	private INode owner = null;
+	/*
+	 * Letzte Node zum aufwecken, falls man beim aufwecken von einer Node unterbrochen wurde.
+	 */
 	private INode lastNode = null;
 	
+	/**
+	 * 
+	 * @param name Name der Node
+	 * @param initiator Abfrage ob die Node ein Initiator ist
+	 * @param startLatch Zähler für die Nachbarn
+	 * @param id ID der Node
+	 */
 	public ElectionNode(String name, boolean initiator, CountDownLatch startLatch, int id) {
 		super(name, initiator, startLatch);
 		
@@ -22,11 +49,21 @@ public class ElectionNode extends SimpleNode {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return Initiator der Node
+	 */
 	public INode getOwner() 
 	{
 		return owner;
 	}
 	
+	/* 
+	 * Wird von anderen Nodes aufgerufen, um diese Node aufzuwecken
+	 * 
+	 * @param neighbour Node die diese Node aufweckt 
+	 * @param id ID der Node die diese aufweckt
+	 */
 	@Override
 	public synchronized void wakeup(INode neighbour, int id) {
 		owner = this;
@@ -60,8 +97,12 @@ public class ElectionNode extends SimpleNode {
 		notifyAll();
 	}
 	
+	/**
+	 * Setzt bestimmte Eigenschaften der Node zurück.
+	 * 
+	 * @param isFinished Abfrage ob der Election Algorithmus abgeschlossen ist
+	 */
 	private synchronized void Reset(boolean isFinished) {
-		//System.out.println(this + " Reset: messageCount is " + messageCount);
 		messageCount = 0;
 		internalConnectionData.GetData().clear();
 		lastNode = null;
@@ -77,6 +118,13 @@ public class ElectionNode extends SimpleNode {
 		
 	}
 	
+	/**
+	 * Wird von anderen Nodes aufgerufen, um dieser Node eine Bestätigung zu schicken
+	 * 
+	 * @param neighbour Node von der ein Echo kommt
+	 * @param data Spannbaum
+	 * @param currentMasterId ID der Nachbar Node
+	 */
 	@Override
 	public synchronized void echo(INode neighbour, Object data, int currentMasterId) {
 		owner = this;
@@ -93,9 +141,11 @@ public class ElectionNode extends SimpleNode {
 	}
 	
 	
+	/**
+	 * Startet das Aufwecken der Nachbarn
+	 */
 	@Override
 	protected synchronized void SendWakeups() {
-		//System.out.println(this + ".SendWakeups()");
 		reset = false;
 		boolean timeout = false;
 		owner = this;
@@ -117,7 +167,6 @@ public class ElectionNode extends SimpleNode {
 						wait(1);	
 						timeout = true;
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -139,6 +188,9 @@ public class ElectionNode extends SimpleNode {
 		notifyAll();
 	}
 	
+	/**
+	 * @return Rückgabe ob die Node Initiator ist
+	 */
 	@Override
 	protected synchronized boolean ShallSendEcho() {
 		if(initiator && currentMasterId == id)
@@ -146,6 +198,9 @@ public class ElectionNode extends SimpleNode {
 		return true;
 	}
 	
+	/**
+	 * Startet das Senden von Echos zu den Nachbarn
+	 */
 	@Override
 	protected synchronized void SendEcho() {
 		boolean reset = false;
@@ -169,7 +224,6 @@ public class ElectionNode extends SimpleNode {
 				wait(1);
 				timeout = true;
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -185,6 +239,9 @@ public class ElectionNode extends SimpleNode {
 		notifyAll();
 	}
 
+	/**
+	 * Stopt das Electionverfahren und startet den Echo Algorithmus
+	 */
 	@Override
 	protected synchronized void Finish() {
 		if(!isShuttingDown) {
@@ -204,6 +261,9 @@ public class ElectionNode extends SimpleNode {
 		}
 	}
 	
+	/**
+	 * Wird beim abschluss des Election Algorithmus ausgeführt.
+	 */
 	public synchronized void finishElection() 
 	{   if(!isShuttingDown) {
 			Reset(true);
@@ -237,13 +297,11 @@ public class ElectionNode extends SimpleNode {
 				SendWakeups();
 				break;
 			case WaitAnswers:
-				//System.out.println(this + ".SendEcho()");
 				SendEcho();
 				break;
 				
 			}
 		
-			//Thread.yield();
 			try {
 				sleep(1);
 			} catch (InterruptedException e) {

@@ -10,11 +10,21 @@ import abstraction.Node;
 import implementation.NodeFactory;
 import implementation.NodeFactory.NodeType;
 
+/**
+ * 
+ * @author Benjamin Scheer, Dominic Schroeder, Dominic Jaeger
+ *
+ */
 public class Start {
 	private static CountDownLatch startLatch = new CountDownLatch(1);
 	private static HashMap<String, Node> nodes = new HashMap<String, Node>();
 	private static boolean isElection = false;
 	
+	/**
+	 * Stellt die Verbindungen zwischen den Nodes her
+	 * 
+	 * @param connections Liste der Nodes, die sich untereinander kennen.
+	 */
 	private static void createConnections(String[] connections) 
 	{
 		Node[] neighbours = new Node[connections.length - 1];
@@ -32,6 +42,13 @@ public class Start {
 		node.setupNeighbours(neighbours);
 	}
 	
+	/**
+	 * Erzeugt die Nodes
+	 * 
+	 * @param initiatorNames Array mit den Namen der Initiatoren
+	 * @param nodeNames Array mit den Namen aller Nodes
+	 * @param type Der Typ gibt an, welcher Algorithmus angewendet wird.
+	 */
 	private static void createNodes(String[] initiatorNames, String[] nodeNames, NodeType type) 
 	{
 		boolean isInitiator = false;
@@ -52,6 +69,11 @@ public class Start {
 		}
 	}
 	
+	/**
+	 * Startet das Erzeugen des Graphen
+	 * 
+	 * @param args Die Übergebenden args von der Main. Hier steht der zu benutzende Algurithmus, sowie die Knoten und deren Verbindung untereinander drin.
+	 */
 	private static void buildGraph(String[] args) 
 	{
 		isElection = args[0].toUpperCase().equals("TRUE");
@@ -84,7 +106,6 @@ public class Start {
 				execService.shutdown();
 				execService.awaitTermination(5, TimeUnit.SECONDS);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
@@ -102,51 +123,6 @@ public class Start {
 							
 							
 		}	
-		
-		/*Node nodeA;
-		Node nodeB;
-		Node nodeC;
-		Node nodeD;
-		Node nodeE;
-		
-		if(!isElection) {
-			System.out.println("No election.");
-			nodeA = NodeFactory.GetNode(NodeType.SimpleNode, "A", true, startLatch);
-			nodeB = NodeFactory.GetNode(NodeType.SimpleNode, "B", true, startLatch);
-			nodeC = NodeFactory.GetNode(NodeType.SimpleNode, "C", true, startLatch);
-			nodeD = NodeFactory.GetNode(NodeType.SimpleNode, "D", true, startLatch);
-			nodeE = NodeFactory.GetNode(NodeType.SimpleNode, "E", true, startLatch);	
-		} else {
-			System.out.println("Election enabled.");
-			
-			boolean initiator = true;
-			Random rnd = new Random();
-			
-			nodeA = NodeFactory.GetNode(NodeType.ElectionNode, "A", initiator, startLatch);
-			
-			initiator = rnd.nextBoolean();
-			nodeB = NodeFactory.GetNode(NodeType.ElectionNode, "B", initiator, startLatch);
-			initiator = rnd.nextBoolean();
-			nodeC = NodeFactory.GetNode(NodeType.ElectionNode, "C", initiator, startLatch);
-			initiator = rnd.nextBoolean();
-			nodeD = NodeFactory.GetNode(NodeType.ElectionNode, "D", initiator, startLatch);
-			initiator = rnd.nextBoolean();
-			nodeE = NodeFactory.GetNode(NodeType.ElectionNode, "E", initiator, startLatch);
-		}
-		
-		nodes.add(nodeA);
-		nodes.add(nodeB);
-		nodes.add(nodeC);
-		nodes.add(nodeD);
-		nodes.add(nodeE);
-		
-		// Connect the nodes (neighbours ya know..)
-		nodes.get(0).setupNeighbours(nodes.get(1), nodes.get(2));
-		nodes.get(1).setupNeighbours(nodes.get(3), nodes.get(4));
-		nodes.get(3).setupNeighbours(nodes.get(1), nodes.get(3), nodes.get(4));
-		nodes.get(4).setupNeighbours(nodes.get(1), nodes.get(3));*/
-		
-		
 	}
 
 }
